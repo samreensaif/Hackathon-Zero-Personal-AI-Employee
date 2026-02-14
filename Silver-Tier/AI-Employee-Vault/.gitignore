@@ -1,0 +1,75 @@
+# ========================
+# Sensitive / Secret Files
+# ========================
+.env
+credentials.json
+token.json
+token_mcp.json
+process_state.json
+processed_tasks.json
+processed_emails.json
+processed_files.json
+posts_history.json
+
+# Keep the template safe to share
+!.env.example
+
+# ========================
+# Logs
+# ========================
+Logs/*
+!Logs/.gitkeep
+*.log
+
+# ========================
+# Python
+# ========================
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+venv/
+env/
+.venv/
+
+# ========================
+# OS Files
+# ========================
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ========================
+# Task / Output Folders
+# ========================
+# Keep folder structure via .gitkeep, ignore runtime content
+
+Inbox/*
+!Inbox/.gitkeep
+
+Needs_Action/*
+!Needs_Action/.gitkeep
+
+Done/*
+!Done/.gitkeep
+
+Pending_Approval/*
+!Pending_Approval/.gitkeep
+
+Approved/*
+!Approved/.gitkeep
+
+Rejected/*
+!Rejected/.gitkeep
+
+Rejected_Archive/*
+!Rejected_Archive/.gitkeep
+
+Plans/*
+!Plans/.gitkeep
+
+# ========================
+# Logs inside subfolders
+# ========================
+Logs/approvals.json

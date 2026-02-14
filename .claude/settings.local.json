@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(for dir in Inbox Needs_Action Done Pending_Approval Approved Rejected Rejected_Archive Plans Logs)",
+      "Bash(do touch \"$dir/.gitkeep\")",
+      "Bash(done)",
+      "Bash(git init:*)",
+      "Bash(for dir in Inbox Needs_Action Done Plans Logs)"
+    ]
+  }
+}

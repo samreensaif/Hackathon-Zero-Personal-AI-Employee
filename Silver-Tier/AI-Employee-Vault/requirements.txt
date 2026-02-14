@@ -1,0 +1,24 @@
+# Silver Tier - AI Employee Vault
+# Install: pip install -r requirements.txt
+
+# Core
+python-dotenv==1.1.0
+
+# Google / Gmail
+google-auth==2.25.2
+google-api-python-client==2.166.0
+google-auth-httplib2==0.2.0
+google-auth-oauthlib==1.2.1
+
+# AI
+anthropic==0.52.0
+
+# Scheduling & Watching
+schedule==1.2.2
+watchdog==6.0.0
+
+# LinkedIn Automation
+playwright==1.50.0
+
+# Utilities
+requests==2.32.3

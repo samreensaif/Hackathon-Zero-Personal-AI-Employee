@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "email": {
+      "command": "python",
+      "args": [
+        "E:\\Hackathon-Zero\\Silver-Tier\\AI-Employee-Vault\\MCP_Servers\\email_mcp_server.py"
+      ],
+      "env": {
+        "GMAIL_CREDENTIALS_PATH": "E:\\Hackathon-Zero\\Silver-Tier\\AI-Employee-Vault\\credentials.json",
+        "GMAIL_MCP_TOKEN_PATH": "E:\\Hackathon-Zero\\Silver-Tier\\AI-Employee-Vault\\token_mcp.json",
+        "LOGS_DIR": "E:\\Hackathon-Zero\\Silver-Tier\\AI-Employee-Vault\\Logs"
+      }
+    }
+  }
+}

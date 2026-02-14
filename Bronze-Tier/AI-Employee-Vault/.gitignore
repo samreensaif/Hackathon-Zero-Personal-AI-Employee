@@ -1,0 +1,56 @@
+# ========================
+# Sensitive / Secret Files
+# ========================
+.env
+credentials.json
+token.json
+processed_emails.json
+
+# Keep the template safe to share
+!.env.example
+
+# ========================
+# Logs
+# ========================
+Logs/*
+!Logs/.gitkeep
+*.log
+
+# ========================
+# Python
+# ========================
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+venv/
+env/
+.venv/
+
+# ========================
+# OS Files
+# ========================
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ========================
+# Obsidian (editor config)
+# ========================
+.obsidian/
+
+# ========================
+# Task / Output Folders
+# ========================
+Inbox/*
+!Inbox/.gitkeep
+
+Needs_Action/*
+!Needs_Action/.gitkeep
+
+Done/*
+!Done/.gitkeep
+
+Plans/*
+!Plans/.gitkeep

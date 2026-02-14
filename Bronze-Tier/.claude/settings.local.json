@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dir:*)",
+      "Bash(powershell -Command:*)",
+      "Bash(tasklist:*)",
+      "Bash(findstr:*)",
+      "Bash(copy E:Hackathon-ZeroBronze-TierAI-Employee-VaultDashboard.md E:Hackathon-ZeroSilver-TierAI-Employee-VaultDashboard.md)"
+    ]
+  }
+}

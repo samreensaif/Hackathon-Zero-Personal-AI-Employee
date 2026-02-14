@@ -1,0 +1,17 @@
+{
+  "_README": "This is a reference copy. The active config lives at E:\\Hackathon-Zero\\.mcp.json",
+  "_NOTE": "Claude Code reads MCP servers from .mcp.json at the project root, NOT from settings.json",
+  "mcpServers": {
+    "email": {
+      "command": "python",
+      "args": [
+        "E:\\Hackathon-Zero\\Silver-Tier\\AI-Employee-Vault\\MCP_Servers\\email_mcp_server.py"
+      ],
+      "env": {
+        "GMAIL_CREDENTIALS_PATH": "E:\\Hackathon-Zero\\Silver-Tier\\AI-Employee-Vault\\credentials.json",
+        "GMAIL_MCP_TOKEN_PATH": "E:\\Hackathon-Zero\\Silver-Tier\\AI-Employee-Vault\\token_mcp.json",
+        "LOGS_DIR": "E:\\Hackathon-Zero\\Silver-Tier\\AI-Employee-Vault\\Logs"
+      }
+    }
+  }
+}
