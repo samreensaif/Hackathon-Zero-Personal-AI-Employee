@@ -421,7 +421,16 @@ def run_task_loop(
             return state
 
     try:
-        task_content = task_filepath.read_text(encoding='utf-8')
+        task_content = task_filepath.read_text(encoding='utf-8-sig')
+    except UnicodeDecodeError:
+        try:
+            task_content = task_filepath.read_text(encoding='utf-16')
+        except Exception as e:
+            logger.error(f'[ERROR] Cannot read task file: {e}')
+            state['status'] = 'failed'
+            state['summary'] = f'Cannot read task file: {e}'
+            save_state(state)
+            return state
     except Exception as e:
         logger.error(f'[ERROR] Cannot read task file: {e}')
         state['status'] = 'failed'

@@ -142,6 +142,15 @@ def is_pid_alive(pid: int) -> bool:
     if pid <= 0:
         return False
     try:
+        if sys.platform == 'win32':
+            import ctypes
+            kernel32 = ctypes.windll.kernel32
+            SYNCHRONIZE = 0x00100000
+            handle = kernel32.OpenProcess(SYNCHRONIZE, False, pid)
+            if handle:
+                kernel32.CloseHandle(handle)
+                return True
+            return False
         os.kill(pid, 0)
         return True
     except (OSError, ProcessLookupError):
@@ -482,7 +491,10 @@ def main():
 
     # Register shutdown handlers
     signal.signal(signal.SIGINT, _shutdown_handler)
-    signal.signal(signal.SIGTERM, _shutdown_handler)
+    try:
+        signal.signal(signal.SIGTERM, _shutdown_handler)
+    except OSError:
+        pass  # SIGTERM handler not supported on Windows
 
     # Rehydrate any processes from state file (for --stop / --status)
     state = load_state()

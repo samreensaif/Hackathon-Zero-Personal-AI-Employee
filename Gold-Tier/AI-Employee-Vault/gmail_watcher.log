@@ -1946,3 +1946,32 @@ httplib2.error.ServerNotFoundError: Unable to find the server at gmail.googleapi
 2026-02-15 14:46:45,825 - INFO - [SKIP] Email 19271fbc... already processed, skipping
 2026-02-15 14:46:45,825 - INFO - [SUMMARY] 0 new, 10 already processed, 10 total
 2026-02-15 14:46:45,825 - INFO - [WAIT] Waiting 20 seconds until next check...
+2026-02-15 20:29:11,402 - INFO - Needs_Action folder path: E:\Hackathon-Zero\Gold-Tier\AI-Employee-Vault\Needs_Action
+2026-02-15 20:29:11,402 - INFO - ============================================================
+2026-02-15 20:29:11,402 - INFO - Gmail Watcher Started (Gold Tier)
+2026-02-15 20:29:11,402 - INFO - Check interval: 20 seconds
+2026-02-15 20:29:11,402 - INFO - Credentials path: E:\Hackathon-Zero\Gold-Tier\credentials.json
+2026-02-15 20:29:11,402 - INFO - ============================================================
+2026-02-15 20:29:11,433 - INFO - Loaded existing credentials from token.json
+2026-02-15 20:29:12,006 - INFO - Token refreshed successfully
+2026-02-15 20:29:12,020 - INFO - file_cache is only supported with oauth2client<4.0.0
+2026-02-15 20:29:12,027 - INFO - Gmail service initialized successfully
+2026-02-15 20:29:12,027 - INFO - [TEST] Testing connection to Gmail API...
+2026-02-15 20:29:13,121 - INFO - [TEST] Connection test successful!
+2026-02-15 20:29:13,121 - INFO - [LOADED] 10 previously processed email IDs
+2026-02-15 20:29:13,121 - INFO - [TIP] To reset tracking, delete 'E:\Hackathon-Zero\Gold-Tier\AI-Employee-Vault\Watchers\processed_emails.json' and restart
+2026-02-15 20:29:13,121 - INFO - [CHECK] Checking for unread important emails... (20:29:13)
+2026-02-15 20:29:13,341 - INFO - [FOUND] 10 unread important email(s)
+2026-02-15 20:29:13,341 - INFO - [SKIP] Email 19c5fce7... already processed, skipping
+2026-02-15 20:29:13,341 - INFO - [SKIP] Email 19c5cb62... already processed, skipping
+2026-02-15 20:29:13,341 - INFO - [SKIP] Email 19b5c638... already processed, skipping
+2026-02-15 20:29:13,341 - INFO - [SKIP] Email 19b4b8ed... already processed, skipping
+2026-02-15 20:29:13,341 - INFO - [SKIP] Email 1973bb6c... already processed, skipping
+2026-02-15 20:29:13,341 - INFO - [SKIP] Email 19739661... already processed, skipping
+2026-02-15 20:29:13,341 - INFO - [SKIP] Email 193f45bf... already processed, skipping
+2026-02-15 20:29:13,341 - INFO - [SKIP] Email 19394517... already processed, skipping
+2026-02-15 20:29:13,341 - INFO - [SKIP] Email 19271fbc... already processed, skipping
+2026-02-15 20:29:13,537 - INFO - [NEW] Processing: [GitHub] A third-party OAuth application has been  - From: GitHub <noreply@github.com>
+2026-02-15 20:29:13,737 - INFO - [OK] Created task file: 20260215_202913_noreply@github.com_action.md
+2026-02-15 20:29:13,737 - INFO - [SUMMARY] 1 new, 9 already processed, 10 total
+2026-02-15 20:29:13,746 - INFO - [WAIT] Waiting 20 seconds until next check...
