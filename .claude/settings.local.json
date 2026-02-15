@@ -10,7 +10,8 @@
       "WebFetch(domain:github.com)",
       "Bash(docker ps:*)",
       "Bash(python -c:*)",
-      "Bash(python:*)"
+      "Bash(python:*)",
+      "Bash(iconv:*)"
     ]
   }
 }
