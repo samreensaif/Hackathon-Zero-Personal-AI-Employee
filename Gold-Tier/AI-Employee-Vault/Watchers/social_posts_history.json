@@ -1,0 +1,80 @@
+{
+  "posts": [
+    {
+      "created_at": "2026-02-14T22:10:19.177791",
+      "platform": "twitter",
+      "filename": "2026-02-14_22-10_TWITTER_POST_customer_testimonial.md",
+      "archive_filename": "TWITTER_POST_2026-02-14_22-10.md",
+      "post_type": "customer_testimonial",
+      "char_count": 104,
+      "status": "pending_approval",
+      "sources": [
+        "Company_Handbook.md \u2014 brand voice"
+      ]
+    },
+    {
+      "created_at": "2026-02-14T22:10:23.473298",
+      "platform": "facebook",
+      "filename": "2026-02-14_22-10_FACEBOOK_POST_behind_the_scenes.md",
+      "archive_filename": "FACEBOOK_POST_2026-02-14_22-10.md",
+      "post_type": "behind_the_scenes",
+      "char_count": 330,
+      "status": "pending_approval",
+      "sources": [
+        "Company_Handbook.md \u2014 brand voice"
+      ]
+    },
+    {
+      "created_at": "2026-02-14T22:10:23.505385",
+      "platform": "instagram",
+      "filename": "2026-02-14_22-10_INSTAGRAM_POST_behind_the_scenes.md",
+      "archive_filename": "INSTAGRAM_POST_2026-02-14_22-10.md",
+      "post_type": "behind_the_scenes",
+      "char_count": 535,
+      "status": "pending_approval",
+      "sources": [
+        "Company_Handbook.md \u2014 brand voice"
+      ]
+    },
+    {
+      "created_at": "2026-02-15T11:39:29.538333",
+      "platform": "facebook",
+      "filename": "2026-02-15_11-39_FACEBOOK_POST_milestone_celebration.md",
+      "archive_filename": "FACEBOOK_POST_2026-02-15_11-39.md",
+      "post_type": "milestone_celebration",
+      "char_count": 332,
+      "status": "pending_approval",
+      "sources": [
+        "Done/test_briefing_DONE.md",
+        "Company_Handbook.md \u2014 brand voice"
+      ]
+    },
+    {
+      "created_at": "2026-02-15T13:56:23.805094",
+      "platform": "instagram",
+      "filename": "2026-02-15_13-56_INSTAGRAM_POST_product_announcement.md",
+      "archive_filename": "INSTAGRAM_POST_2026-02-15_13-56.md",
+      "post_type": "product_announcement",
+      "char_count": 452,
+      "status": "pending_approval",
+      "sources": [
+        "Done/20260215_134240_noreply@github.com_DONE.md",
+        "Company_Handbook.md \u2014 brand voice"
+      ]
+    },
+    {
+      "created_at": "2026-02-15T13:56:23.858728",
+      "platform": "twitter",
+      "filename": "2026-02-15_13-56_TWITTER_POST_quick_tip.md",
+      "archive_filename": "TWITTER_POST_2026-02-15_13-56.md",
+      "post_type": "quick_tip",
+      "char_count": 135,
+      "status": "pending_approval",
+      "sources": [
+        "Done/20260215_134240_noreply@github.com_DONE.md",
+        "Company_Handbook.md \u2014 brand voice"
+      ]
+    }
+  ],
+  "rejected": []
+}

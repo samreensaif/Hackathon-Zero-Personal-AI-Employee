@@ -10,6 +10,19 @@
         "GMAIL_MCP_TOKEN_PATH": "E:\\Hackathon-Zero\\Silver-Tier\\AI-Employee-Vault\\token_mcp.json",
         "LOGS_DIR": "E:\\Hackathon-Zero\\Silver-Tier\\AI-Employee-Vault\\Logs"
       }
+    },
+    "odoo": {
+      "command": "python",
+      "args": [
+        "E:\\Hackathon-Zero\\Gold-Tier\\AI-Employee-Vault\\MCP_Servers\\odoo_mcp_server.py"
+      ],
+      "env": {
+        "ODOO_URL": "http://localhost:8069",
+        "ODOO_DB": "odoo_gold_tier",
+        "ODOO_USERNAME": "admin",
+        "ODOO_PASSWORD": "admin",
+        "LOGS_DIR": "E:\\Hackathon-Zero\\Gold-Tier\\AI-Employee-Vault\\Logs"
+      }
     }
   }
 }

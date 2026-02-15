@@ -1,0 +1,46 @@
+# Environment & Secrets
+.env
+*.key
+*.pem
+credentials.json
+token.json
+token.pickle
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+eggs/
+*.egg
+.venv/
+venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs (keep structure, ignore contents)
+AI-Employee-Vault/Logs/*.log
+AI-Employee-Vault/Logs/*.json
+
+# Sensitive business data
+AI-Employee-Vault/Accounting/*.csv
+AI-Employee-Vault/Accounting/*.xlsx
+
+# Temp files
+*.tmp
+*.bak
+*.orig

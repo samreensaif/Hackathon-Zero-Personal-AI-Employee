@@ -1,0 +1,40 @@
+{
+  "services": {
+    "gmail_watcher": {
+      "pid": 19292,
+      "started_at": "2026-02-15T13:44:30.121773",
+      "script": "E:\\Hackathon-Zero\\Gold-Tier\\AI-Employee-Vault\\Watchers\\gmail_watcher.py",
+      "status": "running",
+      "mode": "continuous"
+    },
+    "file_watcher": {
+      "pid": 11732,
+      "started_at": "2026-02-15T13:41:23.930302",
+      "script": "E:\\Hackathon-Zero\\Gold-Tier\\AI-Employee-Vault\\Watchers\\file_watcher.py",
+      "status": "running",
+      "mode": "continuous"
+    },
+    "orchestrator": {
+      "pid": 17028,
+      "started_at": "2026-02-15T13:41:24.067055",
+      "script": "E:\\Hackathon-Zero\\Gold-Tier\\AI-Employee-Vault\\orchestrator.py",
+      "status": "running",
+      "mode": "continuous"
+    },
+    "approval_manager": {
+      "pid": 9996,
+      "started_at": "2026-02-15T13:41:24.230160",
+      "script": "E:\\Hackathon-Zero\\Gold-Tier\\AI-Employee-Vault\\approval_manager.py",
+      "status": "running",
+      "mode": "continuous"
+    },
+    "linkedin_poster": {
+      "pid": 6476,
+      "started_at": "2026-02-15T13:41:24.398818",
+      "script": "E:\\Hackathon-Zero\\Gold-Tier\\AI-Employee-Vault\\Watchers\\linkedin_poster.py",
+      "status": "stopped",
+      "mode": "scheduled",
+      "stopped_at": "2026-02-15T13:41:29.897290"
+    }
+  }
+}

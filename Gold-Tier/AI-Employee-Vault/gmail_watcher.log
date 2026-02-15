@@ -1,0 +1,680 @@
+2026-02-15 13:41:31,225 - INFO - Needs_Action folder path: E:\Hackathon-Zero\Gold-Tier\AI-Employee-Vault\Needs_Action
+2026-02-15 13:41:31,225 - INFO - ============================================================
+2026-02-15 13:41:31,225 - INFO - Gmail Watcher Started (Gold Tier)
+2026-02-15 13:41:31,225 - INFO - Check interval: 20 seconds
+2026-02-15 13:41:31,225 - INFO - Credentials path: E:\Hackathon-Zero\Gold-Tier\credentials.json
+2026-02-15 13:41:31,225 - INFO - ============================================================
+2026-02-15 13:42:32,081 - INFO - "GET /?state=0n6n5ZbYGznLd3n7MX6W4RAMokb99E&code=4/0AfrIepCp-radCtdqtbIFT-_BFKDe6TN7hA5wQhKzTu9L2WCcDe84NX0mc9mXO0GvLMGscA&scope=https://www.googleapis.com/auth/gmail.readonly HTTP/1.1" 200 65
+2026-02-15 13:42:32,810 - INFO - New credentials obtained and saved to token.json
+2026-02-15 13:42:32,867 - INFO - file_cache is only supported with oauth2client<4.0.0
+2026-02-15 13:42:32,953 - INFO - Gmail service initialized successfully
+2026-02-15 13:42:32,953 - INFO - [TEST] Testing connection to Gmail API...
+2026-02-15 13:42:34,416 - INFO - [TEST] Connection test successful!
+2026-02-15 13:42:34,418 - INFO - [LOADED] 0 previously processed email IDs
+2026-02-15 13:42:34,418 - INFO - [CHECK] Checking for unread important emails... (13:42:34)
+2026-02-15 13:42:34,718 - INFO - [FOUND] 10 unread important email(s)
+2026-02-15 13:42:35,027 - INFO - [NEW] Processing: Confirm your business email address - From: Facebook <notification@faceboo
+2026-02-15 13:42:35,250 - INFO - [OK] Created task file: 20260215_134235_notification@faceboo_action.md
+2026-02-15 13:42:35,538 - INFO - [NEW] Processing: Confirm your business email address - From: Facebook <notification@faceboo
+2026-02-15 13:42:35,747 - INFO - [OK] Created task file: 20260215_134235_notification@faceboo_action.md
+2026-02-15 13:42:36,052 - INFO - [NEW] Processing: test email--important - From: Syed Omar Rab <rabsyedomar@gma
+2026-02-15 13:42:36,270 - INFO - [OK] Created task file: 20260215_134236_rabsyedomar@gmail.co_action.md
+2026-02-15 13:42:36,562 - INFO - [NEW] Processing: Failed production deployment on team 'Samreen Saif - From: Vercel <notifications@vercel.c
+2026-02-15 13:42:36,768 - INFO - [OK] Created task file: 20260215_134236_notifications@vercel_action.md
+2026-02-15 13:42:36,998 - INFO - [NEW] Processing: New sign-in notification - From: The Postman Team <noreply@noti
+2026-02-15 13:42:37,223 - INFO - [OK] Created task file: 20260215_134237_noreply@notification_action.md
+2026-02-15 13:42:37,487 - INFO - [NEW] Processing: Last day of trial - From: "Sanity.io" <hello@sanity.io>
+2026-02-15 13:42:38,085 - INFO - [OK] Created task file: 20260215_134238_hello@sanity.io_action.md
+2026-02-15 13:42:38,407 - INFO - [NEW] Processing: Last day of trial - From: "Sanity.io" <hello@sanity.io>
+2026-02-15 13:42:38,620 - INFO - [OK] Created task file: 20260215_134238_hello@sanity.io_action.md
+2026-02-15 13:42:38,828 - INFO - [NEW] Processing: Security alert - From: Google <no-reply@accounts.goog
+2026-02-15 13:42:39,045 - INFO - [OK] Created task file: 20260215_134239_no-reply@accounts.go_action.md
+2026-02-15 13:42:39,254 - INFO - [NEW] Processing: Updates to Link’s Terms of Service and Privacy Pol - From: Link <notifications@link.com>
+2026-02-15 13:42:39,545 - INFO - [OK] Created task file: 20260215_134239_notifications@link.c_action.md
+2026-02-15 13:42:39,942 - INFO - [NEW] Processing: [GitHub] A third-party GitHub Application has been - From: GitHub <noreply@github.com>
+2026-02-15 13:42:40,541 - INFO - [OK] Created task file: 20260215_134240_noreply@github.com_action.md
+2026-02-15 13:42:40,541 - INFO - [SUMMARY] 10 new, 0 already processed, 10 total
+2026-02-15 13:42:40,544 - INFO - [WAIT] Waiting 20 seconds until next check...
+2026-02-15 13:43:00,544 - INFO - [CHECK] Checking for unread important emails... (13:43:00)
+2026-02-15 13:43:00,741 - INFO - [FOUND] 10 unread important email(s)
+2026-02-15 13:43:00,741 - INFO - [SKIP] Email 19c5fce7... already processed, skipping
+2026-02-15 13:43:00,741 - INFO - [SKIP] Email 19c5cb62... already processed, skipping
+2026-02-15 13:43:00,741 - INFO - [SKIP] Email 19c5c0cc... already processed, skipping
+2026-02-15 13:43:00,741 - INFO - [SKIP] Email 19b5c638... already processed, skipping
+2026-02-15 13:43:00,741 - INFO - [SKIP] Email 19b4b8ed... already processed, skipping
+2026-02-15 13:43:00,741 - INFO - [SKIP] Email 1973bb6c... already processed, skipping
+2026-02-15 13:43:00,741 - INFO - [SKIP] Email 19739661... already processed, skipping
+2026-02-15 13:43:00,741 - INFO - [SKIP] Email 193f45bf... already processed, skipping
+2026-02-15 13:43:00,741 - INFO - [SKIP] Email 19394517... already processed, skipping
+2026-02-15 13:43:00,741 - INFO - [SKIP] Email 19271fbc... already processed, skipping
+2026-02-15 13:43:00,741 - INFO - [SUMMARY] 0 new, 10 already processed, 10 total
+2026-02-15 13:43:00,741 - INFO - [WAIT] Waiting 20 seconds until next check...
+2026-02-15 13:43:20,749 - INFO - [CHECK] Checking for unread important emails... (13:43:20)
+2026-02-15 13:43:20,953 - INFO - [FOUND] 10 unread important email(s)
+2026-02-15 13:43:20,955 - INFO - [SKIP] Email 19c5fce7... already processed, skipping
+2026-02-15 13:43:20,955 - INFO - [SKIP] Email 19c5cb62... already processed, skipping
+2026-02-15 13:43:20,955 - INFO - [SKIP] Email 19c5c0cc... already processed, skipping
+2026-02-15 13:43:20,955 - INFO - [SKIP] Email 19b5c638... already processed, skipping
+2026-02-15 13:43:20,955 - INFO - [SKIP] Email 19b4b8ed... already processed, skipping
+2026-02-15 13:43:20,955 - INFO - [SKIP] Email 1973bb6c... already processed, skipping
+2026-02-15 13:43:20,955 - INFO - [SKIP] Email 19739661... already processed, skipping
+2026-02-15 13:43:20,961 - INFO - [SKIP] Email 193f45bf... already processed, skipping
+2026-02-15 13:43:20,961 - INFO - [SKIP] Email 19394517... already processed, skipping
+2026-02-15 13:43:20,961 - INFO - [SKIP] Email 19271fbc... already processed, skipping
+2026-02-15 13:43:20,964 - INFO - [SUMMARY] 0 new, 10 already processed, 10 total
+2026-02-15 13:43:20,965 - INFO - [WAIT] Waiting 20 seconds until next check...
+2026-02-15 13:44:32,051 - INFO - Needs_Action folder path: E:\Hackathon-Zero\Gold-Tier\AI-Employee-Vault\Needs_Action
+2026-02-15 13:44:32,051 - INFO - ============================================================
+2026-02-15 13:44:32,051 - INFO - Gmail Watcher Started (Gold Tier)
+2026-02-15 13:44:32,051 - INFO - Check interval: 20 seconds
+2026-02-15 13:44:32,051 - INFO - Credentials path: E:\Hackathon-Zero\Gold-Tier\credentials.json
+2026-02-15 13:44:32,051 - INFO - ============================================================
+2026-02-15 13:44:32,071 - INFO - Loaded existing credentials from token.json
+2026-02-15 13:44:32,081 - INFO - file_cache is only supported with oauth2client<4.0.0
+2026-02-15 13:44:32,082 - INFO - Gmail service initialized successfully
+2026-02-15 13:44:32,082 - INFO - [TEST] Testing connection to Gmail API...
+2026-02-15 13:44:33,534 - INFO - [TEST] Connection test successful!
+2026-02-15 13:44:33,534 - INFO - [LOADED] 10 previously processed email IDs
+2026-02-15 13:44:33,534 - INFO - [TIP] To reset tracking, delete 'E:\Hackathon-Zero\Gold-Tier\AI-Employee-Vault\Watchers\processed_emails.json' and restart
+2026-02-15 13:44:33,534 - INFO - [CHECK] Checking for unread important emails... (13:44:33)
+2026-02-15 13:44:33,744 - INFO - [FOUND] 10 unread important email(s)
+2026-02-15 13:44:33,744 - INFO - [SKIP] Email 19c5fce7... already processed, skipping
+2026-02-15 13:44:33,744 - INFO - [SKIP] Email 19c5cb62... already processed, skipping
+2026-02-15 13:44:33,744 - INFO - [SKIP] Email 19c5c0cc... already processed, skipping
+2026-02-15 13:44:33,744 - INFO - [SKIP] Email 19b5c638... already processed, skipping
+2026-02-15 13:44:33,744 - INFO - [SKIP] Email 19b4b8ed... already processed, skipping
+2026-02-15 13:44:33,744 - INFO - [SKIP] Email 1973bb6c... already processed, skipping
+2026-02-15 13:44:33,744 - INFO - [SKIP] Email 19739661... already processed, skipping
+2026-02-15 13:44:33,744 - INFO - [SKIP] Email 193f45bf... already processed, skipping
+2026-02-15 13:44:33,744 - INFO - [SKIP] Email 19394517... already processed, skipping
+2026-02-15 13:44:33,744 - INFO - [SKIP] Email 19271fbc... already processed, skipping
+2026-02-15 13:44:33,744 - INFO - [SUMMARY] 0 new, 10 already processed, 10 total
+2026-02-15 13:44:33,744 - INFO - [WAIT] Waiting 20 seconds until next check...
+2026-02-15 13:44:53,755 - INFO - [CHECK] Checking for unread important emails... (13:44:53)
+2026-02-15 13:44:53,953 - INFO - [FOUND] 10 unread important email(s)
+2026-02-15 13:44:53,953 - INFO - [SKIP] Email 19c5fce7... already processed, skipping
+2026-02-15 13:44:53,953 - INFO - [SKIP] Email 19c5cb62... already processed, skipping
+2026-02-15 13:44:53,953 - INFO - [SKIP] Email 19c5c0cc... already processed, skipping
+2026-02-15 13:44:53,953 - INFO - [SKIP] Email 19b5c638... already processed, skipping
+2026-02-15 13:44:53,953 - INFO - [SKIP] Email 19b4b8ed... already processed, skipping
+2026-02-15 13:44:53,953 - INFO - [SKIP] Email 1973bb6c... already processed, skipping
+2026-02-15 13:44:53,953 - INFO - [SKIP] Email 19739661... already processed, skipping
+2026-02-15 13:44:53,953 - INFO - [SKIP] Email 193f45bf... already processed, skipping
+2026-02-15 13:44:53,953 - INFO - [SKIP] Email 19394517... already processed, skipping
+2026-02-15 13:44:53,953 - INFO - [SKIP] Email 19271fbc... already processed, skipping
+2026-02-15 13:44:53,953 - INFO - [SUMMARY] 0 new, 10 already processed, 10 total
+2026-02-15 13:44:53,953 - INFO - [WAIT] Waiting 20 seconds until next check...
+2026-02-15 13:45:13,964 - INFO - [CHECK] Checking for unread important emails... (13:45:13)
+2026-02-15 13:45:14,163 - INFO - [FOUND] 10 unread important email(s)
+2026-02-15 13:45:14,163 - INFO - [SKIP] Email 19c5fce7... already processed, skipping
+2026-02-15 13:45:14,163 - INFO - [SKIP] Email 19c5cb62... already processed, skipping
+2026-02-15 13:45:14,163 - INFO - [SKIP] Email 19c5c0cc... already processed, skipping
+2026-02-15 13:45:14,163 - INFO - [SKIP] Email 19b5c638... already processed, skipping
+2026-02-15 13:45:14,163 - INFO - [SKIP] Email 19b4b8ed... already processed, skipping
+2026-02-15 13:45:14,163 - INFO - [SKIP] Email 1973bb6c... already processed, skipping
+2026-02-15 13:45:14,163 - INFO - [SKIP] Email 19739661... already processed, skipping
+2026-02-15 13:45:14,163 - INFO - [SKIP] Email 193f45bf... already processed, skipping
+2026-02-15 13:45:14,163 - INFO - [SKIP] Email 19394517... already processed, skipping
+2026-02-15 13:45:14,163 - INFO - [SKIP] Email 19271fbc... already processed, skipping
+2026-02-15 13:45:14,163 - INFO - [SUMMARY] 0 new, 10 already processed, 10 total
+2026-02-15 13:45:14,166 - INFO - [WAIT] Waiting 20 seconds until next check...
+2026-02-15 13:45:34,167 - INFO - [CHECK] Checking for unread important emails... (13:45:34)
+2026-02-15 13:45:34,553 - INFO - [FOUND] 10 unread important email(s)
+2026-02-15 13:45:34,553 - INFO - [SKIP] Email 19c5fce7... already processed, skipping
+2026-02-15 13:45:34,553 - INFO - [SKIP] Email 19c5cb62... already processed, skipping
+2026-02-15 13:45:34,553 - INFO - [SKIP] Email 19c5c0cc... already processed, skipping
+2026-02-15 13:45:34,553 - INFO - [SKIP] Email 19b5c638... already processed, skipping
+2026-02-15 13:45:34,553 - INFO - [SKIP] Email 19b4b8ed... already processed, skipping
+2026-02-15 13:45:34,553 - INFO - [SKIP] Email 1973bb6c... already processed, skipping
+2026-02-15 13:45:34,553 - INFO - [SKIP] Email 19739661... already processed, skipping
+2026-02-15 13:45:34,553 - INFO - [SKIP] Email 193f45bf... already processed, skipping
+2026-02-15 13:45:34,553 - INFO - [SKIP] Email 19394517... already processed, skipping
+2026-02-15 13:45:34,553 - INFO - [SKIP] Email 19271fbc... already processed, skipping
+2026-02-15 13:45:34,553 - INFO - [SUMMARY] 0 new, 10 already processed, 10 total
+2026-02-15 13:45:34,553 - INFO - [WAIT] Waiting 20 seconds until next check...
+2026-02-15 13:45:54,560 - INFO - [CHECK] Checking for unread important emails... (13:45:54)
+2026-02-15 13:45:54,763 - INFO - [FOUND] 10 unread important email(s)
+2026-02-15 13:45:54,763 - INFO - [SKIP] Email 19c5fce7... already processed, skipping
+2026-02-15 13:45:54,763 - INFO - [SKIP] Email 19c5cb62... already processed, skipping
+2026-02-15 13:45:54,763 - INFO - [SKIP] Email 19c5c0cc... already processed, skipping
+2026-02-15 13:45:54,763 - INFO - [SKIP] Email 19b5c638... already processed, skipping
+2026-02-15 13:45:54,771 - INFO - [SKIP] Email 19b4b8ed... already processed, skipping
+2026-02-15 13:45:54,771 - INFO - [SKIP] Email 1973bb6c... already processed, skipping
+2026-02-15 13:45:54,771 - INFO - [SKIP] Email 19739661... already processed, skipping
+2026-02-15 13:45:54,773 - INFO - [SKIP] Email 193f45bf... already processed, skipping
+2026-02-15 13:45:54,773 - INFO - [SKIP] Email 19394517... already processed, skipping
+2026-02-15 13:45:54,773 - INFO - [SKIP] Email 19271fbc... already processed, skipping
+2026-02-15 13:45:54,773 - INFO - [SUMMARY] 0 new, 10 already processed, 10 total
+2026-02-15 13:45:54,773 - INFO - [WAIT] Waiting 20 seconds until next check...
+2026-02-15 13:46:14,776 - INFO - [CHECK] Checking for unread important emails... (13:46:14)
+2026-02-15 13:46:14,976 - INFO - [FOUND] 10 unread important email(s)
+2026-02-15 13:46:14,976 - INFO - [SKIP] Email 19c5fce7... already processed, skipping
+2026-02-15 13:46:14,976 - INFO - [SKIP] Email 19c5cb62... already processed, skipping
+2026-02-15 13:46:14,976 - INFO - [SKIP] Email 19c5c0cc... already processed, skipping
+2026-02-15 13:46:14,976 - INFO - [SKIP] Email 19b5c638... already processed, skipping
+2026-02-15 13:46:14,976 - INFO - [SKIP] Email 19b4b8ed... already processed, skipping
+2026-02-15 13:46:14,987 - INFO - [SKIP] Email 1973bb6c... already processed, skipping
+2026-02-15 13:46:14,987 - INFO - [SKIP] Email 19739661... already processed, skipping
+2026-02-15 13:46:14,987 - INFO - [SKIP] Email 193f45bf... already processed, skipping
+2026-02-15 13:46:14,987 - INFO - [SKIP] Email 19394517... already processed, skipping
+2026-02-15 13:46:14,987 - INFO - [SKIP] Email 19271fbc... already processed, skipping
+2026-02-15 13:46:14,987 - INFO - [SUMMARY] 0 new, 10 already processed, 10 total
+2026-02-15 13:46:14,987 - INFO - [WAIT] Waiting 20 seconds until next check...
+2026-02-15 13:46:34,990 - INFO - [CHECK] Checking for unread important emails... (13:46:34)
+2026-02-15 13:46:35,255 - INFO - [FOUND] 10 unread important email(s)
+2026-02-15 13:46:35,255 - INFO - [SKIP] Email 19c5fce7... already processed, skipping
+2026-02-15 13:46:35,255 - INFO - [SKIP] Email 19c5cb62... already processed, skipping
+2026-02-15 13:46:35,255 - INFO - [SKIP] Email 19c5c0cc... already processed, skipping
+2026-02-15 13:46:35,255 - INFO - [SKIP] Email 19b5c638... already processed, skipping
+2026-02-15 13:46:35,255 - INFO - [SKIP] Email 19b4b8ed... already processed, skipping
+2026-02-15 13:46:35,255 - INFO - [SKIP] Email 1973bb6c... already processed, skipping
+2026-02-15 13:46:35,255 - INFO - [SKIP] Email 19739661... already processed, skipping
+2026-02-15 13:46:35,255 - INFO - [SKIP] Email 193f45bf... already processed, skipping
+2026-02-15 13:46:35,255 - INFO - [SKIP] Email 19394517... already processed, skipping
+2026-02-15 13:46:35,255 - INFO - [SKIP] Email 19271fbc... already processed, skipping
+2026-02-15 13:46:35,264 - INFO - [SUMMARY] 0 new, 10 already processed, 10 total
+2026-02-15 13:46:35,264 - INFO - [WAIT] Waiting 20 seconds until next check...
+2026-02-15 13:46:55,266 - INFO - [CHECK] Checking for unread important emails... (13:46:55)
+2026-02-15 13:46:55,533 - INFO - [FOUND] 10 unread important email(s)
+2026-02-15 13:46:55,533 - INFO - [SKIP] Email 19c5fce7... already processed, skipping
+2026-02-15 13:46:55,533 - INFO - [SKIP] Email 19c5cb62... already processed, skipping
+2026-02-15 13:46:55,533 - INFO - [SKIP] Email 19c5c0cc... already processed, skipping
+2026-02-15 13:46:55,533 - INFO - [SKIP] Email 19b5c638... already processed, skipping
+2026-02-15 13:46:55,533 - INFO - [SKIP] Email 19b4b8ed... already processed, skipping
+2026-02-15 13:46:55,533 - INFO - [SKIP] Email 1973bb6c... already processed, skipping
+2026-02-15 13:46:55,533 - INFO - [SKIP] Email 19739661... already processed, skipping
+2026-02-15 13:46:55,533 - INFO - [SKIP] Email 193f45bf... already processed, skipping
+2026-02-15 13:46:55,533 - INFO - [SKIP] Email 19394517... already processed, skipping
+2026-02-15 13:46:55,533 - INFO - [SKIP] Email 19271fbc... already processed, skipping
+2026-02-15 13:46:55,543 - INFO - [SUMMARY] 0 new, 10 already processed, 10 total
+2026-02-15 13:46:55,544 - INFO - [WAIT] Waiting 20 seconds until next check...
+2026-02-15 13:47:15,545 - INFO - [CHECK] Checking for unread important emails... (13:47:15)
+2026-02-15 13:47:15,739 - INFO - [FOUND] 10 unread important email(s)
+2026-02-15 13:47:15,739 - INFO - [SKIP] Email 19c5fce7... already processed, skipping
+2026-02-15 13:47:15,739 - INFO - [SKIP] Email 19c5cb62... already processed, skipping
+2026-02-15 13:47:15,739 - INFO - [SKIP] Email 19c5c0cc... already processed, skipping
+2026-02-15 13:47:15,739 - INFO - [SKIP] Email 19b5c638... already processed, skipping
+2026-02-15 13:47:15,739 - INFO - [SKIP] Email 19b4b8ed... already processed, skipping
+2026-02-15 13:47:15,739 - INFO - [SKIP] Email 1973bb6c... already processed, skipping
+2026-02-15 13:47:15,739 - INFO - [SKIP] Email 19739661... already processed, skipping
+2026-02-15 13:47:15,739 - INFO - [SKIP] Email 193f45bf... already processed, skipping
+2026-02-15 13:47:15,739 - INFO - [SKIP] Email 19394517... already processed, skipping
+2026-02-15 13:47:15,739 - INFO - [SKIP] Email 19271fbc... already processed, skipping
+2026-02-15 13:47:15,739 - INFO - [SUMMARY] 0 new, 10 already processed, 10 total
+2026-02-15 13:47:15,739 - INFO - [WAIT] Waiting 20 seconds until next check...
+2026-02-15 13:47:35,748 - INFO - [CHECK] Checking for unread important emails... (13:47:35)
+2026-02-15 13:47:35,951 - INFO - [FOUND] 10 unread important email(s)
+2026-02-15 13:47:35,951 - INFO - [SKIP] Email 19c5fce7... already processed, skipping
+2026-02-15 13:47:35,951 - INFO - [SKIP] Email 19c5cb62... already processed, skipping
+2026-02-15 13:47:35,951 - INFO - [SKIP] Email 19c5c0cc... already processed, skipping
+2026-02-15 13:47:35,951 - INFO - [SKIP] Email 19b5c638... already processed, skipping
+2026-02-15 13:47:35,951 - INFO - [SKIP] Email 19b4b8ed... already processed, skipping
+2026-02-15 13:47:35,951 - INFO - [SKIP] Email 1973bb6c... already processed, skipping
+2026-02-15 13:47:35,951 - INFO - [SKIP] Email 19739661... already processed, skipping
+2026-02-15 13:47:35,951 - INFO - [SKIP] Email 193f45bf... already processed, skipping
+2026-02-15 13:47:35,951 - INFO - [SKIP] Email 19394517... already processed, skipping
+2026-02-15 13:47:35,951 - INFO - [SKIP] Email 19271fbc... already processed, skipping
+2026-02-15 13:47:35,951 - INFO - [SUMMARY] 0 new, 10 already processed, 10 total
+2026-02-15 13:47:35,951 - INFO - [WAIT] Waiting 20 seconds until next check...
+2026-02-15 13:47:55,957 - INFO - [CHECK] Checking for unread important emails... (13:47:55)
+2026-02-15 13:47:56,277 - INFO - [FOUND] 10 unread important email(s)
+2026-02-15 13:47:56,277 - INFO - [SKIP] Email 19c5fce7... already processed, skipping
+2026-02-15 13:47:56,277 - INFO - [SKIP] Email 19c5cb62... already processed, skipping
+2026-02-15 13:47:56,277 - INFO - [SKIP] Email 19c5c0cc... already processed, skipping
+2026-02-15 13:47:56,286 - INFO - [SKIP] Email 19b5c638... already processed, skipping
+2026-02-15 13:47:56,286 - INFO - [SKIP] Email 19b4b8ed... already processed, skipping
+2026-02-15 13:47:56,286 - INFO - [SKIP] Email 1973bb6c... already processed, skipping
+2026-02-15 13:47:56,286 - INFO - [SKIP] Email 19739661... already processed, skipping
+2026-02-15 13:47:56,286 - INFO - [SKIP] Email 193f45bf... already processed, skipping
+2026-02-15 13:47:56,286 - INFO - [SKIP] Email 19394517... already processed, skipping
+2026-02-15 13:47:56,286 - INFO - [SKIP] Email 19271fbc... already processed, skipping
+2026-02-15 13:47:56,286 - INFO - [SUMMARY] 0 new, 10 already processed, 10 total
+2026-02-15 13:47:56,286 - INFO - [WAIT] Waiting 20 seconds until next check...
+2026-02-15 13:48:16,291 - INFO - [CHECK] Checking for unread important emails... (13:48:16)
+2026-02-15 13:48:16,772 - INFO - [FOUND] 10 unread important email(s)
+2026-02-15 13:48:16,772 - INFO - [SKIP] Email 19c5fce7... already processed, skipping
+2026-02-15 13:48:16,772 - INFO - [SKIP] Email 19c5cb62... already processed, skipping
+2026-02-15 13:48:16,772 - INFO - [SKIP] Email 19c5c0cc... already processed, skipping
+2026-02-15 13:48:16,772 - INFO - [SKIP] Email 19b5c638... already processed, skipping
+2026-02-15 13:48:16,772 - INFO - [SKIP] Email 19b4b8ed... already processed, skipping
+2026-02-15 13:48:16,772 - INFO - [SKIP] Email 1973bb6c... already processed, skipping
+2026-02-15 13:48:16,772 - INFO - [SKIP] Email 19739661... already processed, skipping
+2026-02-15 13:48:16,772 - INFO - [SKIP] Email 193f45bf... already processed, skipping
+2026-02-15 13:48:16,772 - INFO - [SKIP] Email 19394517... already processed, skipping
+2026-02-15 13:48:16,772 - INFO - [SKIP] Email 19271fbc... already processed, skipping
+2026-02-15 13:48:16,772 - INFO - [SUMMARY] 0 new, 10 already processed, 10 total
+2026-02-15 13:48:16,772 - INFO - [WAIT] Waiting 20 seconds until next check...
+2026-02-15 13:48:36,776 - INFO - [CHECK] Checking for unread important emails... (13:48:36)
+2026-02-15 13:48:36,981 - INFO - [FOUND] 10 unread important email(s)
+2026-02-15 13:48:36,981 - INFO - [SKIP] Email 19c5fce7... already processed, skipping
+2026-02-15 13:48:36,981 - INFO - [SKIP] Email 19c5cb62... already processed, skipping
+2026-02-15 13:48:36,981 - INFO - [SKIP] Email 19c5c0cc... already processed, skipping
+2026-02-15 13:48:36,981 - INFO - [SKIP] Email 19b5c638... already processed, skipping
+2026-02-15 13:48:36,981 - INFO - [SKIP] Email 19b4b8ed... already processed, skipping
+2026-02-15 13:48:36,981 - INFO - [SKIP] Email 1973bb6c... already processed, skipping
+2026-02-15 13:48:36,981 - INFO - [SKIP] Email 19739661... already processed, skipping
+2026-02-15 13:48:36,981 - INFO - [SKIP] Email 193f45bf... already processed, skipping
+2026-02-15 13:48:36,981 - INFO - [SKIP] Email 19394517... already processed, skipping
+2026-02-15 13:48:36,981 - INFO - [SKIP] Email 19271fbc... already processed, skipping
+2026-02-15 13:48:36,981 - INFO - [SUMMARY] 0 new, 10 already processed, 10 total
+2026-02-15 13:48:36,981 - INFO - [WAIT] Waiting 20 seconds until next check...
+2026-02-15 13:48:56,988 - INFO - [CHECK] Checking for unread important emails... (13:48:56)
+2026-02-15 13:48:57,236 - INFO - [FOUND] 10 unread important email(s)
+2026-02-15 13:48:57,237 - INFO - [SKIP] Email 19c5fce7... already processed, skipping
+2026-02-15 13:48:57,237 - INFO - [SKIP] Email 19c5cb62... already processed, skipping
+2026-02-15 13:48:57,237 - INFO - [SKIP] Email 19c5c0cc... already processed, skipping
+2026-02-15 13:48:57,237 - INFO - [SKIP] Email 19b5c638... already processed, skipping
+2026-02-15 13:48:57,237 - INFO - [SKIP] Email 19b4b8ed... already processed, skipping
+2026-02-15 13:48:57,237 - INFO - [SKIP] Email 1973bb6c... already processed, skipping
+2026-02-15 13:48:57,237 - INFO - [SKIP] Email 19739661... already processed, skipping
+2026-02-15 13:48:57,238 - INFO - [SKIP] Email 193f45bf... already processed, skipping
+2026-02-15 13:48:57,238 - INFO - [SKIP] Email 19394517... already processed, skipping
+2026-02-15 13:48:57,238 - INFO - [SKIP] Email 19271fbc... already processed, skipping
+2026-02-15 13:48:57,238 - INFO - [SUMMARY] 0 new, 10 already processed, 10 total
+2026-02-15 13:48:57,239 - INFO - [WAIT] Waiting 20 seconds until next check...
+2026-02-15 13:49:17,240 - INFO - [CHECK] Checking for unread important emails... (13:49:17)
+2026-02-15 13:49:17,431 - INFO - [FOUND] 10 unread important email(s)
+2026-02-15 13:49:17,431 - INFO - [SKIP] Email 19c5fce7... already processed, skipping
+2026-02-15 13:49:17,431 - INFO - [SKIP] Email 19c5cb62... already processed, skipping
+2026-02-15 13:49:17,431 - INFO - [SKIP] Email 19c5c0cc... already processed, skipping
+2026-02-15 13:49:17,431 - INFO - [SKIP] Email 19b5c638... already processed, skipping
+2026-02-15 13:49:17,431 - INFO - [SKIP] Email 19b4b8ed... already processed, skipping
+2026-02-15 13:49:17,431 - INFO - [SKIP] Email 1973bb6c... already processed, skipping
+2026-02-15 13:49:17,431 - INFO - [SKIP] Email 19739661... already processed, skipping
+2026-02-15 13:49:17,431 - INFO - [SKIP] Email 193f45bf... already processed, skipping
+2026-02-15 13:49:17,431 - INFO - [SKIP] Email 19394517... already processed, skipping
+2026-02-15 13:49:17,431 - INFO - [SKIP] Email 19271fbc... already processed, skipping
+2026-02-15 13:49:17,431 - INFO - [SUMMARY] 0 new, 10 already processed, 10 total
+2026-02-15 13:49:17,431 - INFO - [WAIT] Waiting 20 seconds until next check...
+2026-02-15 13:49:37,442 - INFO - [CHECK] Checking for unread important emails... (13:49:37)
+2026-02-15 13:49:37,672 - INFO - [FOUND] 10 unread important email(s)
+2026-02-15 13:49:37,672 - INFO - [SKIP] Email 19c5fce7... already processed, skipping
+2026-02-15 13:49:37,672 - INFO - [SKIP] Email 19c5cb62... already processed, skipping
+2026-02-15 13:49:37,672 - INFO - [SKIP] Email 19c5c0cc... already processed, skipping
+2026-02-15 13:49:37,672 - INFO - [SKIP] Email 19b5c638... already processed, skipping
+2026-02-15 13:49:37,672 - INFO - [SKIP] Email 19b4b8ed... already processed, skipping
+2026-02-15 13:49:37,672 - INFO - [SKIP] Email 1973bb6c... already processed, skipping
+2026-02-15 13:49:37,672 - INFO - [SKIP] Email 19739661... already processed, skipping
+2026-02-15 13:49:37,672 - INFO - [SKIP] Email 193f45bf... already processed, skipping
+2026-02-15 13:49:37,672 - INFO - [SKIP] Email 19394517... already processed, skipping
+2026-02-15 13:49:37,672 - INFO - [SKIP] Email 19271fbc... already processed, skipping
+2026-02-15 13:49:37,672 - INFO - [SUMMARY] 0 new, 10 already processed, 10 total
+2026-02-15 13:49:37,672 - INFO - [WAIT] Waiting 20 seconds until next check...
+2026-02-15 13:49:57,681 - INFO - [CHECK] Checking for unread important emails... (13:49:57)
+2026-02-15 13:49:57,886 - INFO - [FOUND] 10 unread important email(s)
+2026-02-15 13:49:57,886 - INFO - [SKIP] Email 19c5fce7... already processed, skipping
+2026-02-15 13:49:57,886 - INFO - [SKIP] Email 19c5cb62... already processed, skipping
+2026-02-15 13:49:57,886 - INFO - [SKIP] Email 19c5c0cc... already processed, skipping
+2026-02-15 13:49:57,886 - INFO - [SKIP] Email 19b5c638... already processed, skipping
+2026-02-15 13:49:57,886 - INFO - [SKIP] Email 19b4b8ed... already processed, skipping
+2026-02-15 13:49:57,886 - INFO - [SKIP] Email 1973bb6c... already processed, skipping
+2026-02-15 13:49:57,886 - INFO - [SKIP] Email 19739661... already processed, skipping
+2026-02-15 13:49:57,886 - INFO - [SKIP] Email 193f45bf... already processed, skipping
+2026-02-15 13:49:57,886 - INFO - [SKIP] Email 19394517... already processed, skipping
+2026-02-15 13:49:57,886 - INFO - [SKIP] Email 19271fbc... already processed, skipping
+2026-02-15 13:49:57,886 - INFO - [SUMMARY] 0 new, 10 already processed, 10 total
+2026-02-15 13:49:57,897 - INFO - [WAIT] Waiting 20 seconds until next check...
+2026-02-15 13:50:17,898 - INFO - [CHECK] Checking for unread important emails... (13:50:17)
+2026-02-15 13:50:18,096 - INFO - [FOUND] 10 unread important email(s)
+2026-02-15 13:50:18,096 - INFO - [SKIP] Email 19c5fce7... already processed, skipping
+2026-02-15 13:50:18,096 - INFO - [SKIP] Email 19c5cb62... already processed, skipping
+2026-02-15 13:50:18,096 - INFO - [SKIP] Email 19c5c0cc... already processed, skipping
+2026-02-15 13:50:18,096 - INFO - [SKIP] Email 19b5c638... already processed, skipping
+2026-02-15 13:50:18,096 - INFO - [SKIP] Email 19b4b8ed... already processed, skipping
+2026-02-15 13:50:18,096 - INFO - [SKIP] Email 1973bb6c... already processed, skipping
+2026-02-15 13:50:18,096 - INFO - [SKIP] Email 19739661... already processed, skipping
+2026-02-15 13:50:18,096 - INFO - [SKIP] Email 193f45bf... already processed, skipping
+2026-02-15 13:50:18,096 - INFO - [SKIP] Email 19394517... already processed, skipping
+2026-02-15 13:50:18,096 - INFO - [SKIP] Email 19271fbc... already processed, skipping
+2026-02-15 13:50:18,096 - INFO - [SUMMARY] 0 new, 10 already processed, 10 total
+2026-02-15 13:50:18,096 - INFO - [WAIT] Waiting 20 seconds until next check...
+2026-02-15 13:50:38,105 - INFO - [CHECK] Checking for unread important emails... (13:50:38)
+2026-02-15 13:50:38,304 - INFO - [FOUND] 10 unread important email(s)
+2026-02-15 13:50:38,304 - INFO - [SKIP] Email 19c5fce7... already processed, skipping
+2026-02-15 13:50:38,304 - INFO - [SKIP] Email 19c5cb62... already processed, skipping
+2026-02-15 13:50:38,304 - INFO - [SKIP] Email 19c5c0cc... already processed, skipping
+2026-02-15 13:50:38,304 - INFO - [SKIP] Email 19b5c638... already processed, skipping
+2026-02-15 13:50:38,304 - INFO - [SKIP] Email 19b4b8ed... already processed, skipping
+2026-02-15 13:50:38,304 - INFO - [SKIP] Email 1973bb6c... already processed, skipping
+2026-02-15 13:50:38,304 - INFO - [SKIP] Email 19739661... already processed, skipping
+2026-02-15 13:50:38,304 - INFO - [SKIP] Email 193f45bf... already processed, skipping
+2026-02-15 13:50:38,304 - INFO - [SKIP] Email 19394517... already processed, skipping
+2026-02-15 13:50:38,304 - INFO - [SKIP] Email 19271fbc... already processed, skipping
+2026-02-15 13:50:38,304 - INFO - [SUMMARY] 0 new, 10 already processed, 10 total
+2026-02-15 13:50:38,304 - INFO - [WAIT] Waiting 20 seconds until next check...
+2026-02-15 13:50:58,311 - INFO - [CHECK] Checking for unread important emails... (13:50:58)
+2026-02-15 13:50:58,512 - INFO - [FOUND] 10 unread important email(s)
+2026-02-15 13:50:58,512 - INFO - [SKIP] Email 19c5fce7... already processed, skipping
+2026-02-15 13:50:58,512 - INFO - [SKIP] Email 19c5cb62... already processed, skipping
+2026-02-15 13:50:58,512 - INFO - [SKIP] Email 19c5c0cc... already processed, skipping
+2026-02-15 13:50:58,512 - INFO - [SKIP] Email 19b5c638... already processed, skipping
+2026-02-15 13:50:58,513 - INFO - [SKIP] Email 19b4b8ed... already processed, skipping
+2026-02-15 13:50:58,513 - INFO - [SKIP] Email 1973bb6c... already processed, skipping
+2026-02-15 13:50:58,513 - INFO - [SKIP] Email 19739661... already processed, skipping
+2026-02-15 13:50:58,513 - INFO - [SKIP] Email 193f45bf... already processed, skipping
+2026-02-15 13:50:58,513 - INFO - [SKIP] Email 19394517... already processed, skipping
+2026-02-15 13:50:58,513 - INFO - [SKIP] Email 19271fbc... already processed, skipping
+2026-02-15 13:50:58,513 - INFO - [SUMMARY] 0 new, 10 already processed, 10 total
+2026-02-15 13:50:58,514 - INFO - [WAIT] Waiting 20 seconds until next check...
+2026-02-15 13:51:18,515 - INFO - [CHECK] Checking for unread important emails... (13:51:18)
+2026-02-15 13:51:18,705 - INFO - [FOUND] 10 unread important email(s)
+2026-02-15 13:51:18,705 - INFO - [SKIP] Email 19c5fce7... already processed, skipping
+2026-02-15 13:51:18,705 - INFO - [SKIP] Email 19c5cb62... already processed, skipping
+2026-02-15 13:51:18,705 - INFO - [SKIP] Email 19c5c0cc... already processed, skipping
+2026-02-15 13:51:18,705 - INFO - [SKIP] Email 19b5c638... already processed, skipping
+2026-02-15 13:51:18,705 - INFO - [SKIP] Email 19b4b8ed... already processed, skipping
+2026-02-15 13:51:18,705 - INFO - [SKIP] Email 1973bb6c... already processed, skipping
+2026-02-15 13:51:18,705 - INFO - [SKIP] Email 19739661... already processed, skipping
+2026-02-15 13:51:18,705 - INFO - [SKIP] Email 193f45bf... already processed, skipping
+2026-02-15 13:51:18,705 - INFO - [SKIP] Email 19394517... already processed, skipping
+2026-02-15 13:51:18,705 - INFO - [SKIP] Email 19271fbc... already processed, skipping
+2026-02-15 13:51:18,716 - INFO - [SUMMARY] 0 new, 10 already processed, 10 total
+2026-02-15 13:51:18,717 - INFO - [WAIT] Waiting 20 seconds until next check...
+2026-02-15 13:51:38,718 - INFO - [CHECK] Checking for unread important emails... (13:51:38)
+2026-02-15 13:51:38,934 - INFO - [FOUND] 10 unread important email(s)
+2026-02-15 13:51:38,934 - INFO - [SKIP] Email 19c5fce7... already processed, skipping
+2026-02-15 13:51:38,934 - INFO - [SKIP] Email 19c5cb62... already processed, skipping
+2026-02-15 13:51:38,934 - INFO - [SKIP] Email 19c5c0cc... already processed, skipping
+2026-02-15 13:51:38,934 - INFO - [SKIP] Email 19b5c638... already processed, skipping
+2026-02-15 13:51:38,934 - INFO - [SKIP] Email 19b4b8ed... already processed, skipping
+2026-02-15 13:51:38,934 - INFO - [SKIP] Email 1973bb6c... already processed, skipping
+2026-02-15 13:51:38,944 - INFO - [SKIP] Email 19739661... already processed, skipping
+2026-02-15 13:51:38,944 - INFO - [SKIP] Email 193f45bf... already processed, skipping
+2026-02-15 13:51:38,944 - INFO - [SKIP] Email 19394517... already processed, skipping
+2026-02-15 13:51:38,944 - INFO - [SKIP] Email 19271fbc... already processed, skipping
+2026-02-15 13:51:38,944 - INFO - [SUMMARY] 0 new, 10 already processed, 10 total
+2026-02-15 13:51:38,944 - INFO - [WAIT] Waiting 20 seconds until next check...
+2026-02-15 13:51:58,948 - INFO - [CHECK] Checking for unread important emails... (13:51:58)
+2026-02-15 13:51:59,157 - INFO - [FOUND] 10 unread important email(s)
+2026-02-15 13:51:59,158 - INFO - [SKIP] Email 19c5fce7... already processed, skipping
+2026-02-15 13:51:59,158 - INFO - [SKIP] Email 19c5cb62... already processed, skipping
+2026-02-15 13:51:59,158 - INFO - [SKIP] Email 19c5c0cc... already processed, skipping
+2026-02-15 13:51:59,158 - INFO - [SKIP] Email 19b5c638... already processed, skipping
+2026-02-15 13:51:59,158 - INFO - [SKIP] Email 19b4b8ed... already processed, skipping
+2026-02-15 13:51:59,158 - INFO - [SKIP] Email 1973bb6c... already processed, skipping
+2026-02-15 13:51:59,158 - INFO - [SKIP] Email 19739661... already processed, skipping
+2026-02-15 13:51:59,159 - INFO - [SKIP] Email 193f45bf... already processed, skipping
+2026-02-15 13:51:59,159 - INFO - [SKIP] Email 19394517... already processed, skipping
+2026-02-15 13:51:59,159 - INFO - [SKIP] Email 19271fbc... already processed, skipping
+2026-02-15 13:51:59,159 - INFO - [SUMMARY] 0 new, 10 already processed, 10 total
+2026-02-15 13:51:59,160 - INFO - [WAIT] Waiting 20 seconds until next check...
+2026-02-15 13:52:19,161 - INFO - [CHECK] Checking for unread important emails... (13:52:19)
+2026-02-15 13:52:19,363 - INFO - [FOUND] 10 unread important email(s)
+2026-02-15 13:52:19,363 - INFO - [SKIP] Email 19c5fce7... already processed, skipping
+2026-02-15 13:52:19,363 - INFO - [SKIP] Email 19c5cb62... already processed, skipping
+2026-02-15 13:52:19,368 - INFO - [SKIP] Email 19c5c0cc... already processed, skipping
+2026-02-15 13:52:19,368 - INFO - [SKIP] Email 19b5c638... already processed, skipping
+2026-02-15 13:52:19,368 - INFO - [SKIP] Email 19b4b8ed... already processed, skipping
+2026-02-15 13:52:19,368 - INFO - [SKIP] Email 1973bb6c... already processed, skipping
+2026-02-15 13:52:19,368 - INFO - [SKIP] Email 19739661... already processed, skipping
+2026-02-15 13:52:19,368 - INFO - [SKIP] Email 193f45bf... already processed, skipping
+2026-02-15 13:52:19,368 - INFO - [SKIP] Email 19394517... already processed, skipping
+2026-02-15 13:52:19,368 - INFO - [SKIP] Email 19271fbc... already processed, skipping
+2026-02-15 13:52:19,368 - INFO - [SUMMARY] 0 new, 10 already processed, 10 total
+2026-02-15 13:52:19,374 - INFO - [WAIT] Waiting 20 seconds until next check...
+2026-02-15 13:52:39,376 - INFO - [CHECK] Checking for unread important emails... (13:52:39)
+2026-02-15 13:52:39,583 - INFO - [FOUND] 10 unread important email(s)
+2026-02-15 13:52:39,583 - INFO - [SKIP] Email 19c5fce7... already processed, skipping
+2026-02-15 13:52:39,583 - INFO - [SKIP] Email 19c5cb62... already processed, skipping
+2026-02-15 13:52:39,583 - INFO - [SKIP] Email 19c5c0cc... already processed, skipping
+2026-02-15 13:52:39,583 - INFO - [SKIP] Email 19b5c638... already processed, skipping
+2026-02-15 13:52:39,583 - INFO - [SKIP] Email 19b4b8ed... already processed, skipping
+2026-02-15 13:52:39,583 - INFO - [SKIP] Email 1973bb6c... already processed, skipping
+2026-02-15 13:52:39,583 - INFO - [SKIP] Email 19739661... already processed, skipping
+2026-02-15 13:52:39,583 - INFO - [SKIP] Email 193f45bf... already processed, skipping
+2026-02-15 13:52:39,583 - INFO - [SKIP] Email 19394517... already processed, skipping
+2026-02-15 13:52:39,583 - INFO - [SKIP] Email 19271fbc... already processed, skipping
+2026-02-15 13:52:39,583 - INFO - [SUMMARY] 0 new, 10 already processed, 10 total
+2026-02-15 13:52:39,583 - INFO - [WAIT] Waiting 20 seconds until next check...
+2026-02-15 13:52:59,589 - INFO - [CHECK] Checking for unread important emails... (13:52:59)
+2026-02-15 13:52:59,849 - INFO - [FOUND] 10 unread important email(s)
+2026-02-15 13:52:59,849 - INFO - [SKIP] Email 19c5fce7... already processed, skipping
+2026-02-15 13:52:59,849 - INFO - [SKIP] Email 19c5cb62... already processed, skipping
+2026-02-15 13:52:59,849 - INFO - [SKIP] Email 19c5c0cc... already processed, skipping
+2026-02-15 13:52:59,849 - INFO - [SKIP] Email 19b5c638... already processed, skipping
+2026-02-15 13:52:59,849 - INFO - [SKIP] Email 19b4b8ed... already processed, skipping
+2026-02-15 13:52:59,849 - INFO - [SKIP] Email 1973bb6c... already processed, skipping
+2026-02-15 13:52:59,849 - INFO - [SKIP] Email 19739661... already processed, skipping
+2026-02-15 13:52:59,849 - INFO - [SKIP] Email 193f45bf... already processed, skipping
+2026-02-15 13:52:59,849 - INFO - [SKIP] Email 19394517... already processed, skipping
+2026-02-15 13:52:59,849 - INFO - [SKIP] Email 19271fbc... already processed, skipping
+2026-02-15 13:52:59,849 - INFO - [SUMMARY] 0 new, 10 already processed, 10 total
+2026-02-15 13:52:59,849 - INFO - [WAIT] Waiting 20 seconds until next check...
+2026-02-15 13:53:19,857 - INFO - [CHECK] Checking for unread important emails... (13:53:19)
+2026-02-15 13:53:20,053 - INFO - [FOUND] 10 unread important email(s)
+2026-02-15 13:53:20,053 - INFO - [SKIP] Email 19c5fce7... already processed, skipping
+2026-02-15 13:53:20,053 - INFO - [SKIP] Email 19c5cb62... already processed, skipping
+2026-02-15 13:53:20,053 - INFO - [SKIP] Email 19c5c0cc... already processed, skipping
+2026-02-15 13:53:20,053 - INFO - [SKIP] Email 19b5c638... already processed, skipping
+2026-02-15 13:53:20,053 - INFO - [SKIP] Email 19b4b8ed... already processed, skipping
+2026-02-15 13:53:20,060 - INFO - [SKIP] Email 1973bb6c... already processed, skipping
+2026-02-15 13:53:20,060 - INFO - [SKIP] Email 19739661... already processed, skipping
+2026-02-15 13:53:20,060 - INFO - [SKIP] Email 193f45bf... already processed, skipping
+2026-02-15 13:53:20,060 - INFO - [SKIP] Email 19394517... already processed, skipping
+2026-02-15 13:53:20,060 - INFO - [SKIP] Email 19271fbc... already processed, skipping
+2026-02-15 13:53:20,060 - INFO - [SUMMARY] 0 new, 10 already processed, 10 total
+2026-02-15 13:53:20,063 - INFO - [WAIT] Waiting 20 seconds until next check...
+2026-02-15 13:53:40,064 - INFO - [CHECK] Checking for unread important emails... (13:53:40)
+2026-02-15 13:53:40,351 - INFO - [FOUND] 10 unread important email(s)
+2026-02-15 13:53:40,351 - INFO - [SKIP] Email 19c5fce7... already processed, skipping
+2026-02-15 13:53:40,351 - INFO - [SKIP] Email 19c5cb62... already processed, skipping
+2026-02-15 13:53:40,351 - INFO - [SKIP] Email 19c5c0cc... already processed, skipping
+2026-02-15 13:53:40,351 - INFO - [SKIP] Email 19b5c638... already processed, skipping
+2026-02-15 13:53:40,351 - INFO - [SKIP] Email 19b4b8ed... already processed, skipping
+2026-02-15 13:53:40,351 - INFO - [SKIP] Email 1973bb6c... already processed, skipping
+2026-02-15 13:53:40,351 - INFO - [SKIP] Email 19739661... already processed, skipping
+2026-02-15 13:53:40,351 - INFO - [SKIP] Email 193f45bf... already processed, skipping
+2026-02-15 13:53:40,351 - INFO - [SKIP] Email 19394517... already processed, skipping
+2026-02-15 13:53:40,351 - INFO - [SKIP] Email 19271fbc... already processed, skipping
+2026-02-15 13:53:40,351 - INFO - [SUMMARY] 0 new, 10 already processed, 10 total
+2026-02-15 13:53:40,351 - INFO - [WAIT] Waiting 20 seconds until next check...
+2026-02-15 13:54:00,358 - INFO - [CHECK] Checking for unread important emails... (13:54:00)
+2026-02-15 13:54:00,544 - INFO - [FOUND] 10 unread important email(s)
+2026-02-15 13:54:00,544 - INFO - [SKIP] Email 19c5fce7... already processed, skipping
+2026-02-15 13:54:00,555 - INFO - [SKIP] Email 19c5cb62... already processed, skipping
+2026-02-15 13:54:00,555 - INFO - [SKIP] Email 19c5c0cc... already processed, skipping
+2026-02-15 13:54:00,555 - INFO - [SKIP] Email 19b5c638... already processed, skipping
+2026-02-15 13:54:00,555 - INFO - [SKIP] Email 19b4b8ed... already processed, skipping
+2026-02-15 13:54:00,555 - INFO - [SKIP] Email 1973bb6c... already processed, skipping
+2026-02-15 13:54:00,555 - INFO - [SKIP] Email 19739661... already processed, skipping
+2026-02-15 13:54:00,555 - INFO - [SKIP] Email 193f45bf... already processed, skipping
+2026-02-15 13:54:00,555 - INFO - [SKIP] Email 19394517... already processed, skipping
+2026-02-15 13:54:00,555 - INFO - [SKIP] Email 19271fbc... already processed, skipping
+2026-02-15 13:54:00,555 - INFO - [SUMMARY] 0 new, 10 already processed, 10 total
+2026-02-15 13:54:00,555 - INFO - [WAIT] Waiting 20 seconds until next check...
+2026-02-15 13:54:20,560 - INFO - [CHECK] Checking for unread important emails... (13:54:20)
+2026-02-15 13:54:20,757 - INFO - [FOUND] 10 unread important email(s)
+2026-02-15 13:54:20,757 - INFO - [SKIP] Email 19c5fce7... already processed, skipping
+2026-02-15 13:54:20,757 - INFO - [SKIP] Email 19c5cb62... already processed, skipping
+2026-02-15 13:54:20,757 - INFO - [SKIP] Email 19c5c0cc... already processed, skipping
+2026-02-15 13:54:20,757 - INFO - [SKIP] Email 19b5c638... already processed, skipping
+2026-02-15 13:54:20,757 - INFO - [SKIP] Email 19b4b8ed... already processed, skipping
+2026-02-15 13:54:20,757 - INFO - [SKIP] Email 1973bb6c... already processed, skipping
+2026-02-15 13:54:20,757 - INFO - [SKIP] Email 19739661... already processed, skipping
+2026-02-15 13:54:20,757 - INFO - [SKIP] Email 193f45bf... already processed, skipping
+2026-02-15 13:54:20,757 - INFO - [SKIP] Email 19394517... already processed, skipping
+2026-02-15 13:54:20,757 - INFO - [SKIP] Email 19271fbc... already processed, skipping
+2026-02-15 13:54:20,757 - INFO - [SUMMARY] 0 new, 10 already processed, 10 total
+2026-02-15 13:54:20,757 - INFO - [WAIT] Waiting 20 seconds until next check...
+2026-02-15 13:54:40,766 - INFO - [CHECK] Checking for unread important emails... (13:54:40)
+2026-02-15 13:54:40,963 - INFO - [FOUND] 10 unread important email(s)
+2026-02-15 13:54:40,963 - INFO - [SKIP] Email 19c5fce7... already processed, skipping
+2026-02-15 13:54:40,963 - INFO - [SKIP] Email 19c5cb62... already processed, skipping
+2026-02-15 13:54:40,963 - INFO - [SKIP] Email 19c5c0cc... already processed, skipping
+2026-02-15 13:54:40,969 - INFO - [SKIP] Email 19b5c638... already processed, skipping
+2026-02-15 13:54:40,969 - INFO - [SKIP] Email 19b4b8ed... already processed, skipping
+2026-02-15 13:54:40,969 - INFO - [SKIP] Email 1973bb6c... already processed, skipping
+2026-02-15 13:54:40,969 - INFO - [SKIP] Email 19739661... already processed, skipping
+2026-02-15 13:54:40,969 - INFO - [SKIP] Email 193f45bf... already processed, skipping
+2026-02-15 13:54:40,969 - INFO - [SKIP] Email 19394517... already processed, skipping
+2026-02-15 13:54:40,969 - INFO - [SKIP] Email 19271fbc... already processed, skipping
+2026-02-15 13:54:40,973 - INFO - [SUMMARY] 0 new, 10 already processed, 10 total
+2026-02-15 13:54:40,973 - INFO - [WAIT] Waiting 20 seconds until next check...
+2026-02-15 13:55:00,976 - INFO - [CHECK] Checking for unread important emails... (13:55:00)
+2026-02-15 13:55:01,332 - INFO - [FOUND] 10 unread important email(s)
+2026-02-15 13:55:01,332 - INFO - [SKIP] Email 19c5fce7... already processed, skipping
+2026-02-15 13:55:01,332 - INFO - [SKIP] Email 19c5cb62... already processed, skipping
+2026-02-15 13:55:01,332 - INFO - [SKIP] Email 19c5c0cc... already processed, skipping
+2026-02-15 13:55:01,332 - INFO - [SKIP] Email 19b5c638... already processed, skipping
+2026-02-15 13:55:01,332 - INFO - [SKIP] Email 19b4b8ed... already processed, skipping
+2026-02-15 13:55:01,332 - INFO - [SKIP] Email 1973bb6c... already processed, skipping
+2026-02-15 13:55:01,340 - INFO - [SKIP] Email 19739661... already processed, skipping
+2026-02-15 13:55:01,340 - INFO - [SKIP] Email 193f45bf... already processed, skipping
+2026-02-15 13:55:01,340 - INFO - [SKIP] Email 19394517... already processed, skipping
+2026-02-15 13:55:01,340 - INFO - [SKIP] Email 19271fbc... already processed, skipping
+2026-02-15 13:55:01,340 - INFO - [SUMMARY] 0 new, 10 already processed, 10 total
+2026-02-15 13:55:01,340 - INFO - [WAIT] Waiting 20 seconds until next check...
+2026-02-15 13:55:21,344 - INFO - [CHECK] Checking for unread important emails... (13:55:21)
+2026-02-15 13:55:21,597 - INFO - [FOUND] 10 unread important email(s)
+2026-02-15 13:55:21,599 - INFO - [SKIP] Email 19c5fce7... already processed, skipping
+2026-02-15 13:55:21,600 - INFO - [SKIP] Email 19c5cb62... already processed, skipping
+2026-02-15 13:55:21,600 - INFO - [SKIP] Email 19c5c0cc... already processed, skipping
+2026-02-15 13:55:21,600 - INFO - [SKIP] Email 19b5c638... already processed, skipping
+2026-02-15 13:55:21,600 - INFO - [SKIP] Email 19b4b8ed... already processed, skipping
+2026-02-15 13:55:21,600 - INFO - [SKIP] Email 1973bb6c... already processed, skipping
+2026-02-15 13:55:21,600 - INFO - [SKIP] Email 19739661... already processed, skipping
+2026-02-15 13:55:21,600 - INFO - [SKIP] Email 193f45bf... already processed, skipping
+2026-02-15 13:55:21,600 - INFO - [SKIP] Email 19394517... already processed, skipping
+2026-02-15 13:55:21,600 - INFO - [SKIP] Email 19271fbc... already processed, skipping
+2026-02-15 13:55:21,600 - INFO - [SUMMARY] 0 new, 10 already processed, 10 total
+2026-02-15 13:55:21,600 - INFO - [WAIT] Waiting 20 seconds until next check...
+2026-02-15 13:55:41,608 - INFO - [CHECK] Checking for unread important emails... (13:55:41)
+2026-02-15 13:55:41,872 - INFO - [FOUND] 10 unread important email(s)
+2026-02-15 13:55:41,872 - INFO - [SKIP] Email 19c5fce7... already processed, skipping
+2026-02-15 13:55:41,872 - INFO - [SKIP] Email 19c5cb62... already processed, skipping
+2026-02-15 13:55:41,872 - INFO - [SKIP] Email 19c5c0cc... already processed, skipping
+2026-02-15 13:55:41,872 - INFO - [SKIP] Email 19b5c638... already processed, skipping
+2026-02-15 13:55:41,872 - INFO - [SKIP] Email 19b4b8ed... already processed, skipping
+2026-02-15 13:55:41,872 - INFO - [SKIP] Email 1973bb6c... already processed, skipping
+2026-02-15 13:55:41,872 - INFO - [SKIP] Email 19739661... already processed, skipping
+2026-02-15 13:55:41,872 - INFO - [SKIP] Email 193f45bf... already processed, skipping
+2026-02-15 13:55:41,872 - INFO - [SKIP] Email 19394517... already processed, skipping
+2026-02-15 13:55:41,872 - INFO - [SKIP] Email 19271fbc... already processed, skipping
+2026-02-15 13:55:41,872 - INFO - [SUMMARY] 0 new, 10 already processed, 10 total
+2026-02-15 13:55:41,872 - INFO - [WAIT] Waiting 20 seconds until next check...
+2026-02-15 13:56:01,876 - INFO - [CHECK] Checking for unread important emails... (13:56:01)
+2026-02-15 13:56:02,079 - INFO - [FOUND] 10 unread important email(s)
+2026-02-15 13:56:02,079 - INFO - [SKIP] Email 19c5fce7... already processed, skipping
+2026-02-15 13:56:02,079 - INFO - [SKIP] Email 19c5cb62... already processed, skipping
+2026-02-15 13:56:02,079 - INFO - [SKIP] Email 19c5c0cc... already processed, skipping
+2026-02-15 13:56:02,079 - INFO - [SKIP] Email 19b5c638... already processed, skipping
+2026-02-15 13:56:02,079 - INFO - [SKIP] Email 19b4b8ed... already processed, skipping
+2026-02-15 13:56:02,079 - INFO - [SKIP] Email 1973bb6c... already processed, skipping
+2026-02-15 13:56:02,079 - INFO - [SKIP] Email 19739661... already processed, skipping
+2026-02-15 13:56:02,079 - INFO - [SKIP] Email 193f45bf... already processed, skipping
+2026-02-15 13:56:02,079 - INFO - [SKIP] Email 19394517... already processed, skipping
+2026-02-15 13:56:02,079 - INFO - [SKIP] Email 19271fbc... already processed, skipping
+2026-02-15 13:56:02,079 - INFO - [SUMMARY] 0 new, 10 already processed, 10 total
+2026-02-15 13:56:02,086 - INFO - [WAIT] Waiting 20 seconds until next check...
+2026-02-15 13:56:22,087 - INFO - [CHECK] Checking for unread important emails... (13:56:22)
+2026-02-15 13:56:22,318 - INFO - [FOUND] 10 unread important email(s)
+2026-02-15 13:56:22,322 - INFO - [SKIP] Email 19c5fce7... already processed, skipping
+2026-02-15 13:56:22,323 - INFO - [SKIP] Email 19c5cb62... already processed, skipping
+2026-02-15 13:56:22,323 - INFO - [SKIP] Email 19c5c0cc... already processed, skipping
+2026-02-15 13:56:22,323 - INFO - [SKIP] Email 19b5c638... already processed, skipping
+2026-02-15 13:56:22,323 - INFO - [SKIP] Email 19b4b8ed... already processed, skipping
+2026-02-15 13:56:22,323 - INFO - [SKIP] Email 1973bb6c... already processed, skipping
+2026-02-15 13:56:22,323 - INFO - [SKIP] Email 19739661... already processed, skipping
+2026-02-15 13:56:22,323 - INFO - [SKIP] Email 193f45bf... already processed, skipping
+2026-02-15 13:56:22,323 - INFO - [SKIP] Email 19394517... already processed, skipping
+2026-02-15 13:56:22,323 - INFO - [SKIP] Email 19271fbc... already processed, skipping
+2026-02-15 13:56:22,323 - INFO - [SUMMARY] 0 new, 10 already processed, 10 total
+2026-02-15 13:56:22,323 - INFO - [WAIT] Waiting 20 seconds until next check...
+2026-02-15 13:56:42,327 - INFO - [CHECK] Checking for unread important emails... (13:56:42)
+2026-02-15 13:56:42,599 - INFO - [FOUND] 10 unread important email(s)
+2026-02-15 13:56:42,599 - INFO - [SKIP] Email 19c5fce7... already processed, skipping
+2026-02-15 13:56:42,599 - INFO - [SKIP] Email 19c5cb62... already processed, skipping
+2026-02-15 13:56:42,599 - INFO - [SKIP] Email 19c5c0cc... already processed, skipping
+2026-02-15 13:56:42,599 - INFO - [SKIP] Email 19b5c638... already processed, skipping
+2026-02-15 13:56:42,599 - INFO - [SKIP] Email 19b4b8ed... already processed, skipping
+2026-02-15 13:56:42,599 - INFO - [SKIP] Email 1973bb6c... already processed, skipping
+2026-02-15 13:56:42,602 - INFO - [SKIP] Email 19739661... already processed, skipping
+2026-02-15 13:56:42,602 - INFO - [SKIP] Email 193f45bf... already processed, skipping
+2026-02-15 13:56:42,602 - INFO - [SKIP] Email 19394517... already processed, skipping
+2026-02-15 13:56:42,602 - INFO - [SKIP] Email 19271fbc... already processed, skipping
+2026-02-15 13:56:42,602 - INFO - [SUMMARY] 0 new, 10 already processed, 10 total
+2026-02-15 13:56:42,606 - INFO - [WAIT] Waiting 20 seconds until next check...
+2026-02-15 13:57:02,607 - INFO - [CHECK] Checking for unread important emails... (13:57:02)
+2026-02-15 13:57:02,818 - INFO - [FOUND] 10 unread important email(s)
+2026-02-15 13:57:02,818 - INFO - [SKIP] Email 19c5fce7... already processed, skipping
+2026-02-15 13:57:02,818 - INFO - [SKIP] Email 19c5cb62... already processed, skipping
+2026-02-15 13:57:02,818 - INFO - [SKIP] Email 19c5c0cc... already processed, skipping
+2026-02-15 13:57:02,818 - INFO - [SKIP] Email 19b5c638... already processed, skipping
+2026-02-15 13:57:02,818 - INFO - [SKIP] Email 19b4b8ed... already processed, skipping
+2026-02-15 13:57:02,818 - INFO - [SKIP] Email 1973bb6c... already processed, skipping
+2026-02-15 13:57:02,824 - INFO - [SKIP] Email 19739661... already processed, skipping
+2026-02-15 13:57:02,825 - INFO - [SKIP] Email 193f45bf... already processed, skipping
+2026-02-15 13:57:02,825 - INFO - [SKIP] Email 19394517... already processed, skipping
+2026-02-15 13:57:02,825 - INFO - [SKIP] Email 19271fbc... already processed, skipping
+2026-02-15 13:57:02,825 - INFO - [SUMMARY] 0 new, 10 already processed, 10 total
+2026-02-15 13:57:02,825 - INFO - [WAIT] Waiting 20 seconds until next check...
+2026-02-15 13:57:22,827 - INFO - [CHECK] Checking for unread important emails... (13:57:22)
+2026-02-15 13:57:23,051 - INFO - [FOUND] 10 unread important email(s)
+2026-02-15 13:57:23,051 - INFO - [SKIP] Email 19c5fce7... already processed, skipping
+2026-02-15 13:57:23,051 - INFO - [SKIP] Email 19c5cb62... already processed, skipping
+2026-02-15 13:57:23,051 - INFO - [SKIP] Email 19c5c0cc... already processed, skipping
+2026-02-15 13:57:23,051 - INFO - [SKIP] Email 19b5c638... already processed, skipping
+2026-02-15 13:57:23,051 - INFO - [SKIP] Email 19b4b8ed... already processed, skipping
+2026-02-15 13:57:23,051 - INFO - [SKIP] Email 1973bb6c... already processed, skipping
+2026-02-15 13:57:23,051 - INFO - [SKIP] Email 19739661... already processed, skipping
+2026-02-15 13:57:23,051 - INFO - [SKIP] Email 193f45bf... already processed, skipping
+2026-02-15 13:57:23,051 - INFO - [SKIP] Email 19394517... already processed, skipping
+2026-02-15 13:57:23,051 - INFO - [SKIP] Email 19271fbc... already processed, skipping
+2026-02-15 13:57:23,051 - INFO - [SUMMARY] 0 new, 10 already processed, 10 total
+2026-02-15 13:57:23,051 - INFO - [WAIT] Waiting 20 seconds until next check...
+2026-02-15 13:57:43,060 - INFO - [CHECK] Checking for unread important emails... (13:57:43)
+2026-02-15 13:57:43,319 - INFO - [FOUND] 10 unread important email(s)
+2026-02-15 13:57:43,319 - INFO - [SKIP] Email 19c5fce7... already processed, skipping
+2026-02-15 13:57:43,319 - INFO - [SKIP] Email 19c5cb62... already processed, skipping
+2026-02-15 13:57:43,319 - INFO - [SKIP] Email 19c5c0cc... already processed, skipping
+2026-02-15 13:57:43,319 - INFO - [SKIP] Email 19b5c638... already processed, skipping
+2026-02-15 13:57:43,319 - INFO - [SKIP] Email 19b4b8ed... already processed, skipping
+2026-02-15 13:57:43,319 - INFO - [SKIP] Email 1973bb6c... already processed, skipping
+2026-02-15 13:57:43,319 - INFO - [SKIP] Email 19739661... already processed, skipping
+2026-02-15 13:57:43,319 - INFO - [SKIP] Email 193f45bf... already processed, skipping
+2026-02-15 13:57:43,319 - INFO - [SKIP] Email 19394517... already processed, skipping
+2026-02-15 13:57:43,319 - INFO - [SKIP] Email 19271fbc... already processed, skipping
+2026-02-15 13:57:43,319 - INFO - [SUMMARY] 0 new, 10 already processed, 10 total
+2026-02-15 13:57:43,327 - INFO - [WAIT] Waiting 20 seconds until next check...
+2026-02-15 13:58:03,328 - INFO - [CHECK] Checking for unread important emails... (13:58:03)
+2026-02-15 13:58:03,561 - INFO - [FOUND] 10 unread important email(s)
+2026-02-15 13:58:03,569 - INFO - [SKIP] Email 19c5fce7... already processed, skipping
+2026-02-15 13:58:03,569 - INFO - [SKIP] Email 19c5cb62... already processed, skipping
+2026-02-15 13:58:03,569 - INFO - [SKIP] Email 19c5c0cc... already processed, skipping
+2026-02-15 13:58:03,569 - INFO - [SKIP] Email 19b5c638... already processed, skipping
+2026-02-15 13:58:03,569 - INFO - [SKIP] Email 19b4b8ed... already processed, skipping
+2026-02-15 13:58:03,569 - INFO - [SKIP] Email 1973bb6c... already processed, skipping
+2026-02-15 13:58:03,571 - INFO - [SKIP] Email 19739661... already processed, skipping
+2026-02-15 13:58:03,571 - INFO - [SKIP] Email 193f45bf... already processed, skipping
+2026-02-15 13:58:03,573 - INFO - [SKIP] Email 19394517... already processed, skipping
+2026-02-15 13:58:03,573 - INFO - [SKIP] Email 19271fbc... already processed, skipping
+2026-02-15 13:58:03,573 - INFO - [SUMMARY] 0 new, 10 already processed, 10 total
+2026-02-15 13:58:03,573 - INFO - [WAIT] Waiting 20 seconds until next check...
+2026-02-15 13:58:23,577 - INFO - [CHECK] Checking for unread important emails... (13:58:23)
+2026-02-15 13:58:23,872 - INFO - [FOUND] 10 unread important email(s)
+2026-02-15 13:58:23,872 - INFO - [SKIP] Email 19c5fce7... already processed, skipping
+2026-02-15 13:58:23,872 - INFO - [SKIP] Email 19c5cb62... already processed, skipping
+2026-02-15 13:58:23,872 - INFO - [SKIP] Email 19c5c0cc... already processed, skipping
+2026-02-15 13:58:23,872 - INFO - [SKIP] Email 19b5c638... already processed, skipping
+2026-02-15 13:58:23,872 - INFO - [SKIP] Email 19b4b8ed... already processed, skipping
+2026-02-15 13:58:23,872 - INFO - [SKIP] Email 1973bb6c... already processed, skipping
+2026-02-15 13:58:23,872 - INFO - [SKIP] Email 19739661... already processed, skipping
+2026-02-15 13:58:23,872 - INFO - [SKIP] Email 193f45bf... already processed, skipping
+2026-02-15 13:58:23,872 - INFO - [SKIP] Email 19394517... already processed, skipping
+2026-02-15 13:58:23,872 - INFO - [SKIP] Email 19271fbc... already processed, skipping
+2026-02-15 13:58:23,872 - INFO - [SUMMARY] 0 new, 10 already processed, 10 total
+2026-02-15 13:58:23,875 - INFO - [WAIT] Waiting 20 seconds until next check...
+2026-02-15 13:58:43,876 - INFO - [CHECK] Checking for unread important emails... (13:58:43)
+2026-02-15 13:58:44,164 - INFO - [FOUND] 10 unread important email(s)
+2026-02-15 13:58:44,168 - INFO - [SKIP] Email 19c5fce7... already processed, skipping
+2026-02-15 13:58:44,168 - INFO - [SKIP] Email 19c5cb62... already processed, skipping
+2026-02-15 13:58:44,168 - INFO - [SKIP] Email 19c5c0cc... already processed, skipping
+2026-02-15 13:58:44,168 - INFO - [SKIP] Email 19b5c638... already processed, skipping
+2026-02-15 13:58:44,168 - INFO - [SKIP] Email 19b4b8ed... already processed, skipping
+2026-02-15 13:58:44,168 - INFO - [SKIP] Email 1973bb6c... already processed, skipping
+2026-02-15 13:58:44,168 - INFO - [SKIP] Email 19739661... already processed, skipping
+2026-02-15 13:58:44,168 - INFO - [SKIP] Email 193f45bf... already processed, skipping
+2026-02-15 13:58:44,168 - INFO - [SKIP] Email 19394517... already processed, skipping
+2026-02-15 13:58:44,168 - INFO - [SKIP] Email 19271fbc... already processed, skipping
+2026-02-15 13:58:44,168 - INFO - [SUMMARY] 0 new, 10 already processed, 10 total
+2026-02-15 13:58:44,168 - INFO - [WAIT] Waiting 20 seconds until next check...

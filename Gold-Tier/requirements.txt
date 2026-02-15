@@ -1,0 +1,25 @@
+# Gold Tier AI Employee - Python Dependencies
+# Install: pip install -r requirements.txt
+
+# Core
+watchdog>=3.0.0          # File system watcher
+python-dotenv>=1.0.0     # Environment variable management
+requests>=2.31.0         # HTTP requests
+
+# MCP / AI
+# anthropic>=0.40.0      # Anthropic API (add when needed)
+# mcp>=1.0.0             # MCP SDK (add when needed)
+
+# Social Media
+# tweepy>=4.14.0         # Twitter/X API
+# facebook-sdk>=3.1.0    # Facebook Graph API
+# instagrapi>=2.0.0      # Instagram API
+
+# Accounting
+# odoorpc>=0.10.0        # Odoo XML-RPC client
+
+# Utilities
+psutil>=5.9.0            # Cross-platform process utilities
+schedule>=1.2.0          # Job scheduling
+pyyaml>=6.0              # YAML config parsing
+jinja2>=3.1.0            # Template rendering (briefings)
