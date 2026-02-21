@@ -614,18 +614,6 @@ Status: PAUSED (check Pending_Approval/)
 
 ## Troubleshooting
 
-### Odoo Connection Failed
-
-```
-Error: Invalid URL '/jsonrpc': No scheme supplied
-```
-
-**Fix:** Check `.env` has actual values (not empty strings):
-```
-ODOO_URL=http://localhost:8069   # NOT just ODOO_URL=
-ODOO_DB=odoo_gold_tier
-```
-
 ### Odoo Docker Not Starting
 
 ```bash

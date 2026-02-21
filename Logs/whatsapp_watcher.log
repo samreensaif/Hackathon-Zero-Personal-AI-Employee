@@ -1,0 +1,80 @@
+2026-02-21 15:10:01 [INFO] ============================================================
+2026-02-21 15:10:01 [INFO] WhatsApp Watcher starting up.
+2026-02-21 15:10:01 [INFO] Session path : E:\Hackathon-Zero\Watchers\whatsapp_session
+2026-02-21 15:10:01 [INFO] Needs_Action : E:\Hackathon-Zero\Needs_Action
+2026-02-21 15:10:01 [INFO] Check interval: 30 seconds
+2026-02-21 15:10:01 [INFO] ============================================================
+2026-02-21 15:10:01 [INFO] Loaded 0 previously processed fingerprints.
+2026-02-21 15:10:02 [INFO] Trying to connect to Chrome via CDP at http://localhost:9222 …
+2026-02-21 15:10:02 [INFO] Connected to existing Chrome session.
+2026-02-21 15:10:02 [INFO] Waiting for WhatsApp Web to initialise …
+2026-02-21 15:10:03 [INFO] Chat list loaded. Ready to monitor.
+2026-02-21 15:10:03 [INFO] Entering monitoring loop. Press Ctrl+C to stop.
+2026-02-21 15:10:03 [INFO] --- Scan cycle starting ---
+2026-02-21 15:10:03 [INFO] Found 4 unread chat(s).
+2026-02-21 15:10:03 [INFO] DOM dump written to E:\Hackathon-Zero\Logs\chat_dom_dump.html
+2026-02-21 15:10:03 [DEBUG] Checking chat 'Unknown' — preview: 
+2026-02-21 15:10:03 [DEBUG] No trigger keywords in preview for 'Unknown', skipping.
+2026-02-21 15:10:03 [DEBUG] Checking chat 'Unknown' — preview: 
+2026-02-21 15:10:03 [DEBUG] No trigger keywords in preview for 'Unknown', skipping.
+2026-02-21 15:10:03 [DEBUG] Checking chat 'Unknown' — preview: 
+2026-02-21 15:10:03 [DEBUG] No trigger keywords in preview for 'Unknown', skipping.
+2026-02-21 15:10:03 [DEBUG] Checking chat 'Unknown' — preview: 
+2026-02-21 15:10:03 [DEBUG] No trigger keywords in preview for 'Unknown', skipping.
+2026-02-21 15:10:03 [INFO] Scan complete. New tasks created: 0
+2026-02-21 15:10:03 [INFO] Sleeping 30 seconds …
+2026-02-21 15:10:33 [INFO] --- Scan cycle starting ---
+2026-02-21 15:10:33 [INFO] Found 4 unread chat(s).
+2026-02-21 15:10:34 [DEBUG] Checking chat 'Unknown' — preview: 
+2026-02-21 15:10:34 [DEBUG] No trigger keywords in preview for 'Unknown', skipping.
+2026-02-21 15:10:34 [DEBUG] Checking chat 'Unknown' — preview: 
+2026-02-21 15:10:34 [DEBUG] No trigger keywords in preview for 'Unknown', skipping.
+2026-02-21 15:10:34 [DEBUG] Checking chat 'Unknown' — preview: 
+2026-02-21 15:10:34 [DEBUG] No trigger keywords in preview for 'Unknown', skipping.
+2026-02-21 15:10:34 [DEBUG] Checking chat 'Unknown' — preview: 
+2026-02-21 15:10:34 [DEBUG] No trigger keywords in preview for 'Unknown', skipping.
+2026-02-21 15:10:34 [INFO] Scan complete. New tasks created: 0
+2026-02-21 15:10:34 [INFO] Sleeping 30 seconds …
+2026-02-21 15:11:01 [INFO] KeyboardInterrupt received. Saving state and exiting …
+2026-02-21 15:11:01 [INFO] Processed fingerprints saved (0 total).
+2026-02-21 15:11:01 [INFO] Browser connection closed. WhatsApp Watcher stopped.
+2026-02-21 15:12:41 [INFO] ============================================================
+2026-02-21 15:12:41 [INFO] WhatsApp Watcher starting up.
+2026-02-21 15:12:41 [INFO] Session path : E:\Hackathon-Zero\Watchers\whatsapp_session
+2026-02-21 15:12:41 [INFO] Needs_Action : E:\Hackathon-Zero\Needs_Action
+2026-02-21 15:12:41 [INFO] Check interval: 30 seconds
+2026-02-21 15:12:41 [INFO] ============================================================
+2026-02-21 15:12:41 [INFO] Loaded 0 previously processed fingerprints.
+2026-02-21 15:12:42 [INFO] Trying to connect to Chrome via CDP at http://localhost:9222 …
+2026-02-21 15:12:43 [INFO] Connected to existing Chrome session.
+2026-02-21 15:12:43 [INFO] Waiting for WhatsApp Web to initialise …
+2026-02-21 15:12:43 [INFO] Chat list loaded. Ready to monitor.
+2026-02-21 15:12:43 [INFO] Entering monitoring loop. Press Ctrl+C to stop.
+2026-02-21 15:12:43 [INFO] --- Scan cycle starting ---
+2026-02-21 15:12:43 [INFO] Found 4 unread chat(s).
+2026-02-21 15:12:43 [INFO] DOM dump written to E:\Hackathon-Zero\Logs\chat_dom_dump.html
+2026-02-21 15:12:43 [DEBUG] Checking chat 'Unknown' — preview: 
+2026-02-21 15:12:43 [DEBUG] No trigger keywords in preview for 'Unknown', skipping.
+2026-02-21 15:12:43 [DEBUG] Checking chat 'Unknown' — preview: 
+2026-02-21 15:12:43 [DEBUG] No trigger keywords in preview for 'Unknown', skipping.
+2026-02-21 15:12:43 [DEBUG] Checking chat 'Unknown' — preview: 
+2026-02-21 15:12:43 [DEBUG] No trigger keywords in preview for 'Unknown', skipping.
+2026-02-21 15:12:43 [DEBUG] Checking chat 'Unknown' — preview: 
+2026-02-21 15:12:43 [DEBUG] No trigger keywords in preview for 'Unknown', skipping.
+2026-02-21 15:12:43 [INFO] Scan complete. New tasks created: 0
+2026-02-21 15:12:43 [INFO] Sleeping 30 seconds …
+2026-02-21 15:13:13 [INFO] --- Scan cycle starting ---
+2026-02-21 15:13:13 [INFO] Found 4 unread chat(s).
+2026-02-21 15:13:14 [DEBUG] Checking chat 'Unknown' — preview: 
+2026-02-21 15:13:14 [DEBUG] No trigger keywords in preview for 'Unknown', skipping.
+2026-02-21 15:13:14 [DEBUG] Checking chat 'Unknown' — preview: 
+2026-02-21 15:13:14 [DEBUG] No trigger keywords in preview for 'Unknown', skipping.
+2026-02-21 15:13:14 [DEBUG] Checking chat 'Unknown' — preview: 
+2026-02-21 15:13:14 [DEBUG] No trigger keywords in preview for 'Unknown', skipping.
+2026-02-21 15:13:14 [DEBUG] Checking chat 'Unknown' — preview: 
+2026-02-21 15:13:14 [DEBUG] No trigger keywords in preview for 'Unknown', skipping.
+2026-02-21 15:13:14 [INFO] Scan complete. New tasks created: 0
+2026-02-21 15:13:14 [INFO] Sleeping 30 seconds …
+2026-02-21 15:13:44 [INFO] KeyboardInterrupt received. Saving state and exiting …
+2026-02-21 15:13:44 [INFO] Processed fingerprints saved (0 total).
+2026-02-21 15:13:44 [INFO] Browser connection closed. WhatsApp Watcher stopped.

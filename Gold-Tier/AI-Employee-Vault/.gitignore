@@ -1,0 +1,143 @@
+# =============================================================================
+# AI Employee Vault — Gold Tier .gitignore
+# =============================================================================
+# Keep:  all .py source files, all .md documents, requirements.txt, .mcp.json
+# Ignore: secrets, session data, runtime state, logs, OS/editor noise
+# =============================================================================
+
+
+# -----------------------------------------------------------------------------
+# SECRETS & CREDENTIALS
+# Never commit tokens, API keys, or OAuth artifacts
+# -----------------------------------------------------------------------------
+.env
+credentials.json
+token.json
+token_mcp.json
+client_secret*.json
+service_account*.json
+*.pem
+*.key
+
+
+# -----------------------------------------------------------------------------
+# WHATSAPP SESSION
+# Playwright persistent Chromium context — contains browser cookies
+# -----------------------------------------------------------------------------
+Watchers/whatsapp_session/
+
+
+# -----------------------------------------------------------------------------
+# PROCESSED-FILE TRACKING
+# Runtime JSON files that track what has already been processed
+# Regenerated automatically on restart — not part of source
+# -----------------------------------------------------------------------------
+Watchers/processed_whatsapp.json
+Watchers/processed_files.json
+Watchers/processed_emails.json
+Watchers/posts_history.json
+Watchers/social_posts_history.json
+
+
+# -----------------------------------------------------------------------------
+# LOGS
+# All runtime log files — can be large, regenerated each run
+# (Logs/ dir is kept in git as an empty placeholder via .gitkeep)
+# -----------------------------------------------------------------------------
+Logs/*.log
+Logs/*.json
+
+
+# -----------------------------------------------------------------------------
+# VAULT RUNTIME FOLDERS
+# These folders are created automatically by the watchers/orchestrator.
+# They contain runtime task files, not source code.
+# Each has a .gitkeep so the empty folder structure is committed.
+# -----------------------------------------------------------------------------
+Needs_Action/*.md
+Pending_Approval/*.md
+Approved/*.md
+Rejected/*.md
+Rejected_Archive/
+Done/*.md
+Plans/*.md
+Plans/ralph_states/
+Briefings/*.md
+Social_Media/*.md
+Inbox/
+
+
+# -----------------------------------------------------------------------------
+# PYTHON CACHE
+# -----------------------------------------------------------------------------
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+
+# -----------------------------------------------------------------------------
+# VIRTUAL ENVIRONMENTS
+# -----------------------------------------------------------------------------
+venv/
+.venv/
+env/
+.env/
+ENV/
+
+
+# -----------------------------------------------------------------------------
+# OS-GENERATED FILES
+# -----------------------------------------------------------------------------
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+
+# -----------------------------------------------------------------------------
+# EDITOR & IDE FILES
+# -----------------------------------------------------------------------------
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+*.bak
+.history/
+
+
+# -----------------------------------------------------------------------------
+# NODE / NPM (only if Claude CLI node_modules end up here)
+# -----------------------------------------------------------------------------
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+
+# =============================================================================
+# COMMITTED (kept in git — listed here for clarity)
+# =============================================================================
+# *.py                    All Python source files
+# *.md                    All markdown documents (handbook, skills, dashboard template)
+# .mcp.json               MCP server registry
+# requirements.txt        Python dependency list
+# .gitignore              This file
+# Company_Handbook.md     Operational rules
+# Business_Goals.md       KPIs and objectives
+# Dashboard.md            Status template (committed empty)
+# Skills/*.md             All skill reference documents
+# =============================================================================

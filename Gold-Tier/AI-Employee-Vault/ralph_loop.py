@@ -1,150 +1,191 @@
 """
-Ralph Loop — AI Employee Vault (Gold Tier)
+ralph_loop.py
+-------------
+Autonomous agentic loop that drives Claude Code to completion on complex tasks.
 
-The "Ralph Wiggum Loop" keeps Claude Code working autonomously on a task until
-completion.  Named after the Simpsons episode where Ralph simply doesn't stop.
+The orchestrator imports and calls process_task(filepath) directly via importlib.
+This script can also be run from the command line.
 
-Architecture:
-    1. Read a task file from Needs_Action/
-    2. Build a context-rich prompt (task content + vault context + iteration history)
-    3. Invoke `claude` CLI in print mode (non-interactive, single-shot)
-    4. Check for completion:
-        a. Promise-based:  Claude outputs <promise>TASK_COMPLETE</promise>
-        b. File movement:  Task file moved from Needs_Action/ → Done/
-    5. If NOT complete, re-invoke with feedback about what's still needed
-    6. Repeat until complete, max iterations, or human intervention required
+Usage:
+    python ralph_loop.py --task-file Needs_Action/my_task.md
+    python ralph_loop.py --prompt "Process all files in Needs_Action/"
+    python ralph_loop.py --task-file Needs_Action/my_task.md --max-iterations 15
+    python ralph_loop.py --task-file Needs_Action/my_task.md --dry-run
 
-Safety:
-    - Max iterations limit (default: 10)
-    - Per-iteration timeout (default: 5 minutes)
-    - Consecutive error detection → escalate after 3 in a row
-    - Approval detection → pause loop if task requires human approval
-    - Full state tracking in Logs/ralph_state_<task_id>.json
+Orchestrator interface (importlib.util):
+    import ralph_loop
+    result = ralph_loop.process_task(filepath)
+    # result keys: status, iterations, summary, duration_s
+    # status values: "complete" | "timeout" | "error" | "dry_run"
 
-Modes:
-    python ralph_loop.py --task-file "Needs_Action/some_task.md"   # Single task
-    python ralph_loop.py --auto                                     # All in Needs_Action/
-    python ralph_loop.py --status                                   # Show active loops
-    python ralph_loop.py --resume <task_id>                         # Resume a paused loop
-
-Environment Variables (from .env):
-    NEEDS_ACTION_DIR / PENDING_APPROVAL_DIR / APPROVED_DIR / DONE_DIR / LOGS_DIR
-    RALPH_MAX_ITERATIONS        Max iterations per task (default: 10)
-    RALPH_ITERATION_TIMEOUT     Seconds per Claude call (default: 300)
+Environment Variables (.env):
+    RALPH_MAX_ITERATIONS    Max Claude invocations before giving up (default: 10)
+    RALPH_PAUSE_BETWEEN     Seconds to pause between iterations (default: 5)
+    RALPH_CLAUDE_CMD        Claude CLI command name / path (default: claude)
+    VAULT_ROOT              Vault root directory (already set in .env)
+    DRY_RUN                 Skip subprocess calls for testing (default: false)
 """
 
-import os
-import re
-import sys
-import json
-import time
-import hashlib
-import logging
 import argparse
+import json
+import logging
+import os
+import shutil
 import subprocess
+import sys
+import time
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Optional
 
 from dotenv import load_dotenv
 
 # ---------------------------------------------------------------------------
-# Environment & paths
+# Paths & environment
 # ---------------------------------------------------------------------------
 
 SCRIPT_DIR = Path(__file__).parent.resolve()
-VAULT_ROOT = SCRIPT_DIR
-load_dotenv(VAULT_ROOT / '.env')
+load_dotenv(SCRIPT_DIR / ".env")
 
-NEEDS_ACTION_DIR = Path(os.getenv('NEEDS_ACTION_DIR', str(VAULT_ROOT / 'Needs_Action')))
-PENDING_APPROVAL_DIR = Path(os.getenv('PENDING_APPROVAL_DIR', str(VAULT_ROOT / 'Pending_Approval')))
-APPROVED_DIR = Path(os.getenv('APPROVED_DIR', str(VAULT_ROOT / 'Approved')))
-DONE_DIR = Path(os.getenv('DONE_DIR', str(VAULT_ROOT / 'Done')))
-PLANS_DIR = Path(os.getenv('PLANS_DIR', str(VAULT_ROOT / 'Plans')))
-LOGS_DIR = Path(os.getenv('LOGS_DIR', str(VAULT_ROOT / 'Logs')))
+# VAULT_ROOT: use the env var (absolute path already set in .env), fall back to script dir.
+_vault_env = os.getenv("VAULT_ROOT", "")
+VAULT_ROOT = Path(_vault_env) if _vault_env else SCRIPT_DIR
 
-MAX_ITERATIONS = int(os.getenv('RALPH_MAX_ITERATIONS', '10'))
-ITERATION_TIMEOUT = int(os.getenv('RALPH_ITERATION_TIMEOUT', '300'))
-COMPLETION_PROMISE = 'TASK_COMPLETE'
-CONSECUTIVE_ERROR_LIMIT = 3
+MAX_ITERATIONS = int(os.getenv("RALPH_MAX_ITERATIONS", "10"))
+PAUSE_BETWEEN  = float(os.getenv("RALPH_PAUSE_BETWEEN", "5"))
+CLAUDE_CMD     = os.getenv("RALPH_CLAUDE_CMD", "claude")
+DRY_RUN_ENV    = os.getenv("DRY_RUN", "false").strip().lower() == "true"
 
-for d in (NEEDS_ACTION_DIR, PENDING_APPROVAL_DIR, APPROVED_DIR, DONE_DIR,
-          PLANS_DIR, LOGS_DIR):
-    d.mkdir(parents=True, exist_ok=True)
+DONE_DIR             = Path(os.getenv("DONE_DIR",             str(VAULT_ROOT / "Done")))
+PLANS_DIR            = Path(os.getenv("PLANS_DIR",            str(VAULT_ROOT / "Plans")))
+LOGS_DIR             = Path(os.getenv("LOGS_DIR",             str(VAULT_ROOT / "Logs")))
+NEEDS_ACTION_DIR     = Path(os.getenv("NEEDS_ACTION_DIR",     str(VAULT_ROOT / "Needs_Action")))
+PENDING_APPROVAL_DIR = Path(os.getenv("PENDING_APPROVAL_DIR", str(VAULT_ROOT / "Pending_Approval")))
+
+RALPH_STATES_DIR = PLANS_DIR / "ralph_states"
+AUDIT_LOG_FILE   = LOGS_DIR / "ralph_audit.json"
+
+# Ensure required directories exist (safe to call at import time)
+for _d in (DONE_DIR, PLANS_DIR, LOGS_DIR, NEEDS_ACTION_DIR,
+           PENDING_APPROVAL_DIR, RALPH_STATES_DIR):
+    _d.mkdir(parents=True, exist_ok=True)
+
+# Hard timeout (seconds) for a single Claude CLI call
+CLAUDE_TIMEOUT = 300
+
+# How many characters of the previous output to inject into the continuation prompt
+CONTEXT_TAIL = 800
 
 # ---------------------------------------------------------------------------
-# Logging
+# Logging — file + console
 # ---------------------------------------------------------------------------
 
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.StreamHandler(),
-        logging.FileHandler(str(LOGS_DIR / 'ralph_loop.log')),
-    ],
+log = logging.getLogger("ralph_loop")
+log.setLevel(logging.DEBUG)
+
+_fmt = logging.Formatter(
+    "%(asctime)s [%(levelname)s] %(message)s", datefmt="%Y-%m-%d %H:%M:%S"
 )
-logger = logging.getLogger(__name__)
+
+_fh = logging.FileHandler(LOGS_DIR / "ralph_loop.log", encoding="utf-8")
+_fh.setFormatter(_fmt)
+log.addHandler(_fh)
+
+_ch = logging.StreamHandler(sys.stdout)
+_ch.setFormatter(_fmt)
+log.addHandler(_ch)
 
 # ---------------------------------------------------------------------------
-# Task ID helper
+# System prompt — the five rules Claude must follow inside the loop
+# ---------------------------------------------------------------------------
+
+_SYSTEM_INSTRUCTIONS = """\
+You are the Ralph Loop — an autonomous AI agent operating inside an AI Employee Vault.
+
+RULES — follow all five without exception:
+
+1. WORK THROUGH EVERY STEP WITHOUT STOPPING. Do not pause to ask for permission or
+   confirmation. Do not write "I would need to …" — perform the action now.
+
+2. When an action requires human approval, create a draft file in Pending_Approval/
+   with the proposed content, then CONTINUE to the next step immediately. Do not
+   halt or wait for human input at any point during the loop.
+
+3. When ALL steps in the task are complete, move the task file from Needs_Action/
+   to Done/ and append this footer:
+       ---
+       **RALPH LOOP NOTE:** Processed autonomously. All steps complete.
+       Completed: {timestamp}
+
+4. After completing the task, update Dashboard.md with a one-line entry
+   summarising what was done and when.
+
+5. End your FINAL response — and ONLY the final response — with exactly this token
+   on its own line (no extra text after it):
+       <TASK_COMPLETE>
+
+Your working directory is the vault root. Use relative paths from there.\
+"""
+
+# ---------------------------------------------------------------------------
+# State & audit helpers
 # ---------------------------------------------------------------------------
 
 
-def make_task_id(filepath: Path) -> str:
-    """Generate a short, stable task ID from the filename."""
-    name = filepath.stem
-    # Use first 8 chars of md5 + simplified name for readability
-    h = hashlib.md5(name.encode()).hexdigest()[:8]
-    # Clean the name to something short
-    short = re.sub(r'[^a-zA-Z0-9]', '_', name)[:30]
-    return f"{short}_{h}"
-
-
-# ---------------------------------------------------------------------------
-# Loop state persistence
-# ---------------------------------------------------------------------------
-
-
-def state_path(task_id: str) -> Path:
-    return LOGS_DIR / f"ralph_state_{task_id}.json"
-
-
-def load_state(task_id: str) -> Dict:
-    """Load or initialize loop state for a task."""
-    sp = state_path(task_id)
-    if sp.exists():
-        try:
-            with open(sp, 'r') as f:
-                return json.load(f)
-        except Exception as e:
-            logger.warning(f'[STATE] Could not load state for {task_id}: {e}')
-
-    return {
-        'task_id': task_id,
-        'status': 'initialized',   # initialized, running, paused, completed, failed, escalated
-        'iteration': 0,
-        'max_iterations': MAX_ITERATIONS,
-        'consecutive_errors': 0,
-        'created_at': datetime.now().isoformat(),
-        'updated_at': datetime.now().isoformat(),
-        'task_file': '',
-        'task_content': '',
-        'iterations': [],
-        'completion_method': None,
-        'summary': '',
+def _write_state(task_stem: str, status: str, iteration: int, summary: str) -> None:
+    """Write current loop state to Plans/ralph_states/{task_stem}_ralph_state.json."""
+    state = {
+        "task":       task_stem,
+        "status":     status,
+        "iteration":  iteration,
+        "summary":    summary,
+        "updated_at": datetime.now().isoformat(),
     }
-
-
-def save_state(state: Dict):
-    """Persist loop state to disk."""
-    state['updated_at'] = datetime.now().isoformat()
-    sp = state_path(state['task_id'])
+    state_file = RALPH_STATES_DIR / f"{task_stem}_ralph_state.json"
     try:
-        with open(sp, 'w') as f:
-            json.dump(state, f, indent=2, default=str)
-    except Exception as e:
-        logger.error(f'[STATE] Could not save state: {e}')
+        with open(state_file, "w", encoding="utf-8") as f:
+            json.dump(state, f, indent=2)
+    except OSError as exc:
+        log.warning("Could not write state file: %s", exc)
+
+
+def _append_audit(
+    task: str,
+    status: str,
+    iterations: int,
+    duration_s: float,
+    summary: str,
+) -> None:
+    """
+    Append one record to Logs/ralph_audit.json.
+    Trims the log to the most recent 200 records.
+    """
+    record = {
+        "timestamp":  datetime.now().isoformat(),
+        "task":       task,
+        "status":     status,
+        "iterations": iterations,
+        "duration_s": round(duration_s, 2),
+        "summary":    summary,
+    }
+    records: list = []
+    if AUDIT_LOG_FILE.exists():
+        try:
+            with open(AUDIT_LOG_FILE, "r", encoding="utf-8") as f:
+                records = json.load(f)
+        except (json.JSONDecodeError, OSError):
+            records = []
+
+    records.append(record)
+
+    if len(records) > 200:
+        records = records[-200:]
+
+    try:
+        with open(AUDIT_LOG_FILE, "w", encoding="utf-8") as f:
+            json.dump(records, f, indent=2, ensure_ascii=False)
+    except OSError as exc:
+        log.warning("Could not write audit log: %s", exc)
 
 
 # ---------------------------------------------------------------------------
@@ -152,54 +193,30 @@ def save_state(state: Dict):
 # ---------------------------------------------------------------------------
 
 
-def check_promise(claude_output: str) -> bool:
-    """Check if Claude's output contains the completion promise tag."""
-    pattern = rf'<promise>\s*{re.escape(COMPLETION_PROMISE)}\s*</promise>'
-    return bool(re.search(pattern, claude_output, re.IGNORECASE))
+def _check_promise(output: str) -> bool:
+    """True if <TASK_COMPLETE> appears anywhere in Claude's output."""
+    return "<TASK_COMPLETE>" in output
 
 
-def check_file_moved(task_filename: str) -> str:
+def _check_file_moved(task_stem: str) -> bool:
+    """True if any file whose name starts with *task_stem* exists in Done/."""
+    return bool(list(DONE_DIR.glob(f"{task_stem}*")))
+
+
+def _is_complete(output: str, task_stem: str, strategy: str = "both") -> bool:
     """
-    Check if the task file has moved out of Needs_Action/.
+    Evaluate completion using the requested strategy.
 
-    Returns:
-        'needs_action' — still in Needs_Action/
-        'done'         — moved to Done/
-        'pending'      — moved to Pending_Approval/ (needs human approval)
-        'approved'     — in Approved/
-        'missing'      — gone from all known locations
+    strategy="both"    — either <TASK_COMPLETE> OR file in Done/ (inclusive-or, default)
+    strategy="promise" — only the <TASK_COMPLETE> token check
+    strategy="file"    — only the Done/ file-movement check
     """
-    basename = Path(task_filename).name
-
-    if (NEEDS_ACTION_DIR / basename).exists():
-        return 'needs_action'
-    if any(DONE_DIR.glob(f'*{Path(basename).stem}*')):
-        return 'done'
-    if any(PENDING_APPROVAL_DIR.glob(f'*{Path(basename).stem}*')):
-        return 'pending'
-    if any(APPROVED_DIR.glob(f'*{Path(basename).stem}*')):
-        return 'approved'
-    # Also check Plans/ — orchestrator moves auto-approved plans there
-    if any(PLANS_DIR.glob(f'*{Path(basename).stem}*')):
-        return 'done'
-    return 'missing'
-
-
-def check_approval_needed(claude_output: str, task_filename: str) -> bool:
-    """Detect if the task requires human approval before continuing."""
-    # Check if a file related to this task appeared in Pending_Approval/
-    stem = Path(task_filename).stem
-    pending_files = list(PENDING_APPROVAL_DIR.glob(f'*{stem}*'))
-    if pending_files:
-        return True
-
-    # Check Claude's output for approval indicators
-    approval_phrases = [
-        'pending approval', 'needs approval', 'requires approval',
-        'awaiting approval', 'human review required', 'moved to pending_approval',
-    ]
-    output_lower = claude_output.lower()
-    return any(phrase in output_lower for phrase in approval_phrases)
+    if strategy == "promise":
+        return _check_promise(output)
+    if strategy == "file":
+        return _check_file_moved(task_stem)
+    # "both" (default): either condition suffices
+    return _check_promise(output) or _check_file_moved(task_stem)
 
 
 # ---------------------------------------------------------------------------
@@ -207,724 +224,433 @@ def check_approval_needed(claude_output: str, task_filename: str) -> bool:
 # ---------------------------------------------------------------------------
 
 
-def build_initial_prompt(task_content: str, task_filename: str) -> str:
-    """Build the first-iteration prompt with full context."""
-    return f"""You are the AI Employee (Gold Tier). You have been assigned a task to complete autonomously.
-
-## Your Task
-
-The following task file was placed in Needs_Action/ and needs to be processed:
-
-**File:** `{task_filename}`
-
----
-{task_content}
----
-
-## Instructions
-
-1. Analyze the task and determine what actions are needed.
-2. Execute each action step by step.
-3. Use the vault folder structure:
-   - `Needs_Action/` — incoming tasks (this task is here)
-   - `Pending_Approval/` — items needing human review before execution
-   - `Plans/` — auto-approved action plans
-   - `Done/` — completed tasks
-4. If the task requires external actions (sending emails, posting to social media, financial transactions), create an approval request in `Pending_Approval/` and STOP.
-5. If the task is internal (filing, summarizing, updating dashboard), complete it directly.
-6. When you have fully completed the task, output exactly: <promise>TASK_COMPLETE</promise>
-7. If you cannot complete the task, explain what's blocking you.
-
-## Important Rules
-
-- Follow the Company Handbook guidelines
-- Never send outbound communications without approval
-- Log your actions clearly
-- If uncertain, create an approval request rather than proceeding
-
-Work through this task now."""
+def _build_initial_prompt(task_content: str, task_path: str) -> str:
+    return (
+        f"{_SYSTEM_INSTRUCTIONS}\n\n"
+        f"---\n\n"
+        f"## Task file: {task_path}\n\n"
+        f"{task_content}\n\n"
+        f"---\n\n"
+        f"Begin working through all steps now. "
+        f"End with <TASK_COMPLETE> only when every step is fully done."
+    )
 
 
-def build_followup_prompt(
+def _build_continuation_prompt(
     task_content: str,
-    task_filename: str,
+    task_path: str,
     iteration: int,
-    previous_output: str,
-    previous_error: str,
+    prev_output_tail: str,
 ) -> str:
-    """Build a re-trigger prompt with context from the previous iteration."""
-    context_parts = [
-        f"""You are the AI Employee (Gold Tier). You are continuing work on a task.
-This is iteration {iteration + 1} of processing.
-
-## Original Task
-
-**File:** `{task_filename}`
-
----
-{task_content}
----
-
-## Previous Iteration Output
-
-"""
-    ]
-
-    # Include a truncated version of the previous output
-    if previous_output:
-        truncated = previous_output[-2000:] if len(previous_output) > 2000 else previous_output
-        if len(previous_output) > 2000:
-            truncated = "...(truncated)...\n" + truncated
-        context_parts.append(truncated)
-    else:
-        context_parts.append("*(No output captured)*")
-
-    if previous_error:
-        context_parts.append(f"\n\n## Error from Previous Iteration\n\n```\n{previous_error[:500]}\n```")
-
-    context_parts.append(f"""
-
-## Instructions
-
-The task is NOT yet complete. Continue where you left off.
-
-- Review what was done in the previous iteration
-- Determine what still needs to be done
-- Complete the remaining steps
-- When fully done, output: <promise>TASK_COMPLETE</promise>
-- If blocked, explain what's needed
-
-Continue working on this task now.""")
-
-    return '\n'.join(context_parts)
+    return (
+        f"{_SYSTEM_INSTRUCTIONS}\n\n"
+        f"---\n\n"
+        f"## Task file: {task_path}\n\n"
+        f"{task_content}\n\n"
+        f"---\n\n"
+        f"## Context from previous iteration (iteration {iteration - 1})\n\n"
+        f"You have already started working on this task. Here are the last "
+        f"{CONTEXT_TAIL} characters of your previous output:\n\n"
+        f"```\n{prev_output_tail}\n```\n\n"
+        f"Continue from where you left off. Complete any remaining steps, "
+        f"then end with <TASK_COMPLETE>."
+    )
 
 
 # ---------------------------------------------------------------------------
-# Claude CLI invocation
+# Claude subprocess invocation
 # ---------------------------------------------------------------------------
 
+# Sentinel strings returned by _run_claude on specific failures
+_ERR_NOT_FOUND = "__claude_not_found__"
+_ERR_TIMEOUT   = "__timeout__"
 
-def invoke_claude(prompt: str, timeout: int = ITERATION_TIMEOUT) -> Dict:
-    """
-    Invoke the Claude CLI in print mode and capture its output.
 
-    Returns a dict with:
-        success: bool
-        output:  str (stdout)
-        error:   str (stderr)
-        duration: float (seconds)
+def _run_claude(prompt: str, dry_run: bool) -> tuple[bool, str]:
     """
-    start = time.time()
+    Invoke the Claude CLI with `--print <prompt>`.
+
+    Returns (success: bool, output: str).
+
+    success=True  → output contains Claude's response text.
+    success=False, output=_ERR_NOT_FOUND → binary missing; abort the whole loop.
+    success=False, output=_ERR_TIMEOUT   → transient; count as failed iteration, keep looping.
+    success=False, other                 → non-zero exit; keep looping.
+    """
+    if dry_run:
+        log.info(
+            "[DRY-RUN] Would invoke: %s --print <prompt> (cwd=%s, prompt_len=%d)",
+            CLAUDE_CMD, VAULT_ROOT, len(prompt),
+        )
+        return True, "[DRY-RUN] Simulated Claude response.\n<TASK_COMPLETE>"
+
+    cmd = [CLAUDE_CMD, "--print", prompt]
+    log.debug(
+        "Invoking Claude (prompt=%d chars, cwd=%s, timeout=%ds) …",
+        len(prompt), VAULT_ROOT, CLAUDE_TIMEOUT,
+    )
 
     try:
         proc = subprocess.run(
-            'claude --print --verbose',
-            input=prompt,
+            cmd,
             capture_output=True,
             text=True,
-            timeout=timeout,
+            timeout=CLAUDE_TIMEOUT,
             cwd=str(VAULT_ROOT),
-            shell=True,
         )
+        if proc.returncode != 0:
+            log.warning(
+                "[CLAUDE] Non-zero exit code %d. stderr: %s",
+                proc.returncode, proc.stderr[:400],
+            )
+        return True, proc.stdout
 
-        duration = time.time() - start
-
-        return {
-            'success': proc.returncode == 0,
-            'output': proc.stdout,
-            'error': proc.stderr if proc.returncode != 0 else '',
-            'return_code': proc.returncode,
-            'duration': round(duration, 1),
-        }
+    except FileNotFoundError:
+        log.error(
+            "[ERROR] Claude CLI not found: %r\n"
+            "  Install with : npm install -g @anthropic-ai/claude-code\n"
+            "  Or set       : RALPH_CLAUDE_CMD=<full path> in .env\n"
+            "  Verify with  : where claude   (Windows) / which claude  (Unix)",
+            CLAUDE_CMD,
+        )
+        return False, _ERR_NOT_FOUND
 
     except subprocess.TimeoutExpired:
-        duration = time.time() - start
-        logger.error(f'[CLAUDE] Timed out after {timeout}s')
-        return {
-            'success': False,
-            'output': '',
-            'error': f'Claude CLI timed out after {timeout} seconds',
-            'return_code': -1,
-            'duration': round(duration, 1),
-        }
-    except FileNotFoundError:
-        logger.error('[CLAUDE] claude CLI not found in PATH')
-        return {
-            'success': False,
-            'output': '',
-            'error': 'claude CLI not found in PATH. Install with: npm install -g @anthropic-ai/claude-code',
-            'return_code': -1,
-            'duration': 0,
-        }
-    except Exception as e:
-        duration = time.time() - start
-        logger.error(f'[CLAUDE] Unexpected error: {e}')
-        return {
-            'success': False,
-            'output': '',
-            'error': str(e),
-            'return_code': -1,
-            'duration': round(duration, 1),
-        }
-
-
-# ---------------------------------------------------------------------------
-# Core loop
-# ---------------------------------------------------------------------------
-
-
-def run_task_loop(
-    task_filepath: Path,
-    max_iterations: int = MAX_ITERATIONS,
-    timeout: int = ITERATION_TIMEOUT,
-) -> Dict:
-    """
-    Run the Ralph Loop on a single task file.
-
-    Returns the final state dict with completion status and summary.
-    """
-    task_filename = task_filepath.name
-    task_id = make_task_id(task_filepath)
-
-    logger.info('=' * 60)
-    logger.info(f'Ralph Loop — Starting')
-    logger.info(f'Task:       {task_filename}')
-    logger.info(f'Task ID:    {task_id}')
-    logger.info(f'Max Iter:   {max_iterations}')
-    logger.info(f'Timeout:    {timeout}s per iteration')
-    logger.info('=' * 60)
-
-    # Load or initialize state
-    state = load_state(task_id)
-
-    # Read task content
-    if not task_filepath.exists():
-        # Check if it was already processed
-        file_status = check_file_moved(task_filename)
-        if file_status == 'done':
-            logger.info(f'[SKIP] Task already in Done/: {task_filename}')
-            state['status'] = 'completed'
-            state['completion_method'] = 'already_done'
-            save_state(state)
-            return state
-        elif file_status == 'pending':
-            logger.info(f'[PAUSED] Task is in Pending_Approval/: {task_filename}')
-            state['status'] = 'paused'
-            state['summary'] = 'Task requires human approval before continuing'
-            save_state(state)
-            return state
-        else:
-            logger.error(f'[ERROR] Task file not found: {task_filepath}')
-            state['status'] = 'failed'
-            state['summary'] = f'Task file not found: {task_filepath}'
-            save_state(state)
-            return state
-
-    try:
-        task_content = task_filepath.read_text(encoding='utf-8-sig')
-    except UnicodeDecodeError:
-        try:
-            task_content = task_filepath.read_text(encoding='utf-16')
-        except Exception as e:
-            logger.error(f'[ERROR] Cannot read task file: {e}')
-            state['status'] = 'failed'
-            state['summary'] = f'Cannot read task file: {e}'
-            save_state(state)
-            return state
-    except Exception as e:
-        logger.error(f'[ERROR] Cannot read task file: {e}')
-        state['status'] = 'failed'
-        state['summary'] = f'Cannot read task file: {e}'
-        save_state(state)
-        return state
-
-    state['task_file'] = str(task_filepath)
-    state['task_content'] = task_content[:1000]  # Store truncated for reference
-    state['status'] = 'running'
-    save_state(state)
-
-    previous_output = ''
-    previous_error = ''
-
-    # Main iteration loop
-    for i in range(state['iteration'], max_iterations):
-        state['iteration'] = i + 1
-        logger.info(f'\n{"-" * 40}')
-        logger.info(f'[ITERATION {i + 1}/{max_iterations}]')
-        logger.info(f'{"-" * 40}')
-
-        # Build prompt
-        if i == 0 and not previous_output:
-            prompt = build_initial_prompt(task_content, task_filename)
-        else:
-            prompt = build_followup_prompt(
-                task_content, task_filename, i,
-                previous_output, previous_error,
-            )
-
-        # Invoke Claude
-        logger.info(f'[CLAUDE] Invoking (timeout={timeout}s)...')
-        result = invoke_claude(prompt, timeout)
-
-        # Record iteration
-        iteration_record = {
-            'iteration': i + 1,
-            'timestamp': datetime.now().isoformat(),
-            'success': result['success'],
-            'duration': result['duration'],
-            'output_length': len(result['output']),
-            'error': result['error'][:200] if result['error'] else '',
-            'promise_found': False,
-            'file_status': '',
-        }
-
-        if result['success']:
-            state['consecutive_errors'] = 0
-            logger.info(f'[CLAUDE] Completed in {result["duration"]}s '
-                        f'({len(result["output"])} chars)')
-        else:
-            state['consecutive_errors'] += 1
-            logger.error(f'[CLAUDE] Failed (attempt {state["consecutive_errors"]}/'
-                         f'{CONSECUTIVE_ERROR_LIMIT}): {result["error"][:200]}')
-
-            if state['consecutive_errors'] >= CONSECUTIVE_ERROR_LIMIT:
-                logger.error(f'[ESCALATE] {CONSECUTIVE_ERROR_LIMIT} consecutive errors — '
-                             'escalating to human')
-                state['status'] = 'escalated'
-                state['summary'] = (
-                    f'Escalated after {CONSECUTIVE_ERROR_LIMIT} consecutive errors. '
-                    f'Last error: {result["error"][:200]}'
-                )
-                iteration_record['file_status'] = 'error_escalated'
-                state['iterations'].append(iteration_record)
-                save_state(state)
-                _create_escalation_file(task_id, task_filename, state)
-                return state
-
-        previous_output = result['output']
-        previous_error = result['error']
-
-        # --- Check for completion ---
-
-        # Strategy 1: Promise-based
-        if result['output'] and check_promise(result['output']):
-            logger.info(f'[COMPLETE] Promise detected: <promise>{COMPLETION_PROMISE}</promise>')
-            state['status'] = 'completed'
-            state['completion_method'] = 'promise'
-            state['summary'] = f'Task completed via promise at iteration {i + 1}'
-            iteration_record['promise_found'] = True
-            iteration_record['file_status'] = 'complete_promise'
-            state['iterations'].append(iteration_record)
-            save_state(state)
-            logger.info(f'[DONE] Task completed in {i + 1} iteration(s)')
-            return state
-
-        # Strategy 2: File movement
-        file_status = check_file_moved(task_filename)
-        iteration_record['file_status'] = file_status
-
-        if file_status == 'done':
-            logger.info(f'[COMPLETE] Task file moved to Done/')
-            state['status'] = 'completed'
-            state['completion_method'] = 'file_moved'
-            state['summary'] = f'Task completed (file moved to Done/) at iteration {i + 1}'
-            state['iterations'].append(iteration_record)
-            save_state(state)
-            logger.info(f'[DONE] Task completed in {i + 1} iteration(s)')
-            return state
-
-        if file_status == 'pending':
-            logger.info(f'[PAUSED] Task routed to Pending_Approval/ — awaiting human')
-            state['status'] = 'paused'
-            state['summary'] = (
-                f'Task paused at iteration {i + 1}: requires human approval. '
-                'Check Pending_Approval/ and move to Approved/ to continue.'
-            )
-            state['iterations'].append(iteration_record)
-            save_state(state)
-            return state
-
-        if file_status == 'approved':
-            logger.info(f'[APPROVED] Task was approved — continuing')
-
-        if file_status == 'missing' and i > 0:
-            # The file was processed by the orchestrator (moved to Done via a
-            # different filename pattern) — check Done/ more broadly
-            logger.info(f'[CHECK] File missing from Needs_Action/ — checking Done/')
-            state['status'] = 'completed'
-            state['completion_method'] = 'file_moved'
-            state['summary'] = f'Task file removed from Needs_Action/ at iteration {i + 1}'
-            state['iterations'].append(iteration_record)
-            save_state(state)
-            return state
-
-        # Check if approval was requested by Claude's output
-        if check_approval_needed(result['output'], task_filename):
-            logger.info(f'[PAUSED] Approval detected in Claude output — pausing loop')
-            state['status'] = 'paused'
-            state['summary'] = (
-                f'Task paused at iteration {i + 1}: approval language detected. '
-                'Review Pending_Approval/ and approve/reject before resuming.'
-            )
-            state['iterations'].append(iteration_record)
-            save_state(state)
-            return state
-
-        # Not complete — continue to next iteration
-        state['iterations'].append(iteration_record)
-        save_state(state)
-        logger.info(f'[CONTINUE] Task not yet complete — will retry')
-
-        # Brief pause between iterations to avoid hammering
-        if i < max_iterations - 1:
-            time.sleep(2)
-
-    # Max iterations reached
-    logger.warning(f'[LIMIT] Max iterations ({max_iterations}) reached without completion')
-    state['status'] = 'failed'
-    state['summary'] = (
-        f'Max iterations ({max_iterations}) reached without completion. '
-        'Task may need manual intervention or a higher iteration limit.'
-    )
-    save_state(state)
-    _create_escalation_file(task_id, task_filename, state)
-    return state
-
-
-# ---------------------------------------------------------------------------
-# Escalation file
-# ---------------------------------------------------------------------------
-
-
-def _create_escalation_file(task_id: str, task_filename: str, state: Dict):
-    """Create a file in Pending_Approval/ to alert the human that a loop failed."""
-    now = datetime.now()
-    escalation_name = f"ESCALATION_{task_id}_{now.strftime('%Y%m%d_%H%M%S')}.md"
-    escalation_path = PENDING_APPROVAL_DIR / escalation_name
-
-    iterations_summary = []
-    for it in state.get('iterations', []):
-        status_icon = 'OK' if it.get('success') else 'FAIL'
-        iterations_summary.append(
-            f"| {it['iteration']} | {status_icon} | {it.get('duration', 0)}s | "
-            f"{it.get('file_status', '')} | {it.get('error', '')[:60]} |"
+        log.warning(
+            "[TIMEOUT] Claude did not finish within %ds — "
+            "counting as a failed iteration and continuing.",
+            CLAUDE_TIMEOUT,
         )
-    iterations_table = '\n'.join(iterations_summary) if iterations_summary else '| — | — | — | — | — |'
+        return False, _ERR_TIMEOUT
 
-    content = f"""# Ralph Loop Escalation — Human Intervention Required
 
-**Action Type:** escalation
-**Task ID:** {task_id}
-**Original Task:** `{task_filename}`
-**Status:** {state.get('status', 'unknown').upper()}
-**Iterations Completed:** {state.get('iteration', 0)}/{state.get('max_iterations', MAX_ITERATIONS)}
-**Created:** {now.strftime('%Y-%m-%d %H:%M:%S')}
-**Urgency:** high
+# ---------------------------------------------------------------------------
+# Timeout annotation
+# ---------------------------------------------------------------------------
 
----
 
-## Summary
-
-{state.get('summary', 'No summary available.')}
-
----
-
-## Iteration History
-
-| # | Status | Duration | File State | Error |
-|---|--------|----------|------------|-------|
-{iterations_table}
-
----
-
-## What Happened
-
-The Ralph Loop attempted to process this task autonomously but could not
-complete it within the configured limits. Possible reasons:
-
-- Task is too complex for autonomous processing
-- External dependency blocking completion
-- Repeated errors during execution
-- Max iteration limit reached
-
----
-
-## Recommended Actions
-
-1. Review the original task in `Needs_Action/{task_filename}`
-2. Check the state file: `Logs/ralph_state_{task_id}.json`
-3. Check the log: `Logs/ralph_loop.log`
-4. Either:
-   a. Simplify the task and re-submit to Needs_Action/
-   b. Process the task manually
-   c. Increase `RALPH_MAX_ITERATIONS` and resume with: `python ralph_loop.py --resume {task_id}`
-
----
-
-## Instructions
-
-1. **To acknowledge:** Move this file to `Done/`
-2. **To re-process:** Fix the issue and run: `python ralph_loop.py --resume {task_id}`
-
----
-*Auto-generated by Ralph Loop at {now.strftime('%Y-%m-%d %H:%M:%S')}*
-"""
+def _annotate_timeout(filepath: Path, iterations: int) -> None:
+    """Append a TIMEOUT warning block to the task file in Needs_Action/."""
+    warning = (
+        f"\n\n---\n"
+        f"## ⚠️ RALPH LOOP TIMEOUT\n\n"
+        f"The Ralph Loop exhausted **{iterations}** iteration(s) without completing "
+        f"this task.\n\n"
+        f"- **Action required:** Human review needed.\n"
+        f"- **Timestamp:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n"
+        f"- **Suggestions:**\n"
+        f"  - Break this task into smaller sub-tasks and resubmit.\n"
+        f"  - Increase `RALPH_MAX_ITERATIONS` in `.env` (currently {iterations}).\n"
+        f"  - Run manually: `python ralph_loop.py --task-file {filepath.name} "
+        f"--max-iterations {iterations + 5}`\n"
+    )
     try:
-        with open(escalation_path, 'w', encoding='utf-8') as f:
-            f.write(content)
-        logger.info(f'[ESCALATION] Created: Pending_Approval/{escalation_name}')
-    except Exception as e:
-        logger.error(f'[ERROR] Failed to create escalation file: {e}')
+        with open(filepath, "a", encoding="utf-8") as f:
+            f.write(warning)
+        log.warning("[TIMEOUT] Appended timeout warning to %s.", filepath.name)
+    except OSError as exc:
+        log.error("[TIMEOUT] Could not annotate task file: %s", exc)
 
 
 # ---------------------------------------------------------------------------
-# Auto-process mode
+# Core: process_task — imported by orchestrator.py via importlib
 # ---------------------------------------------------------------------------
 
 
-def auto_process():
-    """Process all .md files in Needs_Action/ through the Ralph Loop."""
-    md_files = sorted(NEEDS_ACTION_DIR.glob('*.md'))
-
-    if not md_files:
-        logger.info('[AUTO] No task files in Needs_Action/')
-        return
-
-    logger.info(f'[AUTO] Found {len(md_files)} task(s) in Needs_Action/')
-
-    results = []
-    for filepath in md_files:
-        logger.info(f'\n{"=" * 60}')
-        logger.info(f'[AUTO] Processing: {filepath.name}')
-        logger.info(f'{"=" * 60}')
-
-        state = run_task_loop(filepath)
-        results.append({
-            'file': filepath.name,
-            'task_id': state['task_id'],
-            'status': state['status'],
-            'iterations': state['iteration'],
-            'summary': state.get('summary', ''),
-        })
-
-        # If a task was paused for approval, don't block the rest
-        if state['status'] == 'paused':
-            logger.info(f'[AUTO] {filepath.name} paused for approval — continuing to next')
-
-    # Print summary
-    logger.info(f'\n{"=" * 60}')
-    logger.info(f'[AUTO] Processing Summary')
-    logger.info(f'{"=" * 60}')
-    for r in results:
-        icon = {
-            'completed': 'DONE', 'paused': 'PAUSED',
-            'failed': 'FAIL', 'escalated': 'ESCALATED',
-        }.get(r['status'], r['status'].upper())
-        logger.info(f'  [{icon}] {r["file"]} ({r["iterations"]} iter) — {r["summary"][:60]}')
-
-
-# ---------------------------------------------------------------------------
-# Resume mode
-# ---------------------------------------------------------------------------
-
-
-def resume_task(task_id: str):
-    """Resume a paused or failed Ralph Loop by task ID."""
-    sp = state_path(task_id)
-    if not sp.exists():
-        logger.error(f'[RESUME] No state file found for task ID: {task_id}')
-        logger.info(f'[RESUME] Expected: {sp}')
-        return
-
-    state = load_state(task_id)
-    logger.info(f'[RESUME] Task: {state.get("task_file", "unknown")}')
-    logger.info(f'[RESUME] Previous status: {state["status"]}')
-    logger.info(f'[RESUME] Completed iterations: {state["iteration"]}')
-
-    task_file = state.get('task_file', '')
-    if not task_file:
-        logger.error('[RESUME] No task_file recorded in state')
-        return
-
-    task_path = Path(task_file)
-
-    # If the task was paused for approval, check if it's been approved
-    if state['status'] == 'paused':
-        file_status = check_file_moved(task_path.name)
-        if file_status == 'pending':
-            logger.info('[RESUME] Task still in Pending_Approval/ — cannot resume yet')
-            logger.info('[RESUME] Move the file to Approved/ or Rejected/ first')
-            return
-        elif file_status == 'done':
-            logger.info('[RESUME] Task already completed (in Done/) — nothing to do')
-            state['status'] = 'completed'
-            state['completion_method'] = 'manual'
-            save_state(state)
-            return
-
-    # Reset error counter and continue
-    state['consecutive_errors'] = 0
-    state['status'] = 'running'
-    remaining = state['max_iterations'] - state['iteration']
-
-    if remaining <= 0:
-        logger.info('[RESUME] No iterations remaining — increasing limit by 5')
-        state['max_iterations'] += 5
-        remaining = 5
-
-    save_state(state)
-
-    # If the file is back in Needs_Action/ or still exists, continue
-    if task_path.exists():
-        result = run_task_loop(task_path, max_iterations=state['max_iterations'])
-        logger.info(f'[RESUME] Final status: {result["status"]}')
-    else:
-        # File may have been moved — check
-        file_status = check_file_moved(task_path.name)
-        if file_status in ('done', 'missing'):
-            logger.info(f'[RESUME] Task file no longer in Needs_Action/ (status={file_status})')
-            state['status'] = 'completed'
-            state['completion_method'] = 'manual'
-            save_state(state)
-        else:
-            logger.warning(f'[RESUME] Task file status: {file_status} — cannot continue')
-
-
-# ---------------------------------------------------------------------------
-# Status display
-# ---------------------------------------------------------------------------
-
-
-def show_status():
-    """Show all Ralph Loop state files and their current status."""
-    state_files = sorted(LOGS_DIR.glob('ralph_state_*.json'))
-
-    if not state_files:
-        logger.info('[STATUS] No Ralph Loop state files found')
-        return
-
-    print(f'\n{"=" * 70}')
-    print(f'  Ralph Loop — Active Tasks')
-    print(f'{"=" * 70}')
-    print(f'  {"Task ID":<35} {"Status":<12} {"Iter":<6} {"Updated"}')
-    print(f'  {"-" * 35} {"-" * 12} {"-" * 6} {"-" * 20}')
-
-    for sf in state_files:
-        try:
-            with open(sf, 'r') as f:
-                state = json.load(f)
-            task_id = state.get('task_id', sf.stem)
-            status = state.get('status', '?')
-            iteration = f"{state.get('iteration', 0)}/{state.get('max_iterations', MAX_ITERATIONS)}"
-            updated = state.get('updated_at', '?')[:19]
-            print(f'  {task_id:<35} {status:<12} {iteration:<6} {updated}')
-        except Exception:
-            print(f'  {sf.stem:<35} {"error":<12} {"?":<6} {"?":<20}')
-
-    print(f'{"=" * 70}\n')
-
-
-# ---------------------------------------------------------------------------
-# Integration entry point (called by orchestrator)
-# ---------------------------------------------------------------------------
-
-
-def process_task(task_filepath: Path, **kwargs) -> Dict:
+def process_task(
+    filepath: Path,
+    *,
+    max_iterations: Optional[int] = None,
+    dry_run: Optional[bool] = None,
+    strategy: str = "both",
+) -> dict:
     """
-    Entry point for the orchestrator or other scripts to invoke the Ralph Loop.
+    Run the Ralph Loop on *filepath*.
 
-    Returns:
+    Called by orchestrator.py as:
+        result = ralph.process_task(filepath)
+
+    Parameters
+    ----------
+    filepath : Path
+        Path to the task .md file (typically in Needs_Action/).
+    max_iterations : int, optional
+        Override RALPH_MAX_ITERATIONS from .env.  None → read from env.
+    dry_run : bool, optional
+        Override DRY_RUN from .env.  None → read from env.
+    strategy : str
+        Completion detection strategy — 'both' | 'promise' | 'file'.
+        Default 'both': either <TASK_COMPLETE> OR file appears in Done/.
+
+    Returns
+    -------
+    dict
         {
-            'task_id': str,
-            'status': str,        # completed, paused, failed, escalated
-            'iterations': int,
-            'summary': str,
+            "status":     "complete" | "timeout" | "error" | "dry_run",
+            "iterations": int,
+            "summary":    str,
+            "duration_s": float,
         }
     """
-    max_iter = kwargs.get('max_iterations', MAX_ITERATIONS)
-    timeout = kwargs.get('timeout', ITERATION_TIMEOUT)
+    start     = time.monotonic()
+    _max      = max_iterations if max_iterations is not None else MAX_ITERATIONS
+    _dry      = dry_run if dry_run is not None else DRY_RUN_ENV
+    task_stem = filepath.stem  # filename without extension
 
-    state = run_task_loop(task_filepath, max_iterations=max_iter, timeout=timeout)
+    log.info("=" * 60)
+    log.info("Ralph Loop starting.")
+    log.info("  Task      : %s", filepath)
+    log.info("  Max iter  : %d", _max)
+    log.info("  Pause     : %gs", PAUSE_BETWEEN)
+    log.info("  Strategy  : %s", strategy)
+    log.info("  Dry-run   : %s", _dry)
+    log.info("=" * 60)
 
+    # ── Read task file ──────────────────────────────────────────────────────
+    try:
+        task_content = filepath.read_text(encoding="utf-8")
+    except OSError as exc:
+        log.error("[ERROR] Cannot read task file: %s", exc)
+        summary = f"Cannot read task file: {exc}"
+        _write_state(task_stem, "error", 0, summary)
+        _append_audit(str(filepath), "error", 0, time.monotonic() - start, summary)
+        return {
+            "status":     "error",
+            "iterations": 0,
+            "summary":    summary,
+            "duration_s": round(time.monotonic() - start, 2),
+        }
+
+    # ── Dry-run short-circuit ───────────────────────────────────────────────
+    if _dry:
+        log.info("[DRY-RUN] Dry-run mode — one simulated iteration, no Claude calls.")
+        _write_state(task_stem, "dry_run", 1, "Dry-run: simulated completion.")
+        _append_audit(
+            str(filepath), "dry_run", 1,
+            time.monotonic() - start, "Dry-run: simulated completion.",
+        )
+        return {
+            "status":     "dry_run",
+            "iterations": 1,
+            "summary":    "Dry-run mode: no real Claude invocations were made.",
+            "duration_s": round(time.monotonic() - start, 2),
+        }
+
+    # ── Early binary check (fail fast before entering the loop) ─────────────
+    if not shutil.which(CLAUDE_CMD):
+        log.error(
+            "[ERROR] Claude CLI not found: %r\n"
+            "  Install with : npm install -g @anthropic-ai/claude-code\n"
+            "  Or set       : RALPH_CLAUDE_CMD=<full path> in .env\n"
+            "  Verify with  : where claude   (Windows) / which claude  (Unix)",
+            CLAUDE_CMD,
+        )
+        summary = (
+            f'Claude CLI "{CLAUDE_CMD}" not found. '
+            "Install with: npm install -g @anthropic-ai/claude-code"
+        )
+        _write_state(task_stem, "error", 0, summary)
+        _append_audit(str(filepath), "error", 0, time.monotonic() - start, summary)
+        return {
+            "status":     "error",
+            "iterations": 0,
+            "summary":    summary,
+            "duration_s": round(time.monotonic() - start, 2),
+        }
+
+    # ── Main iteration loop ─────────────────────────────────────────────────
+    prev_output = ""
+    iteration   = 0
+
+    for iteration in range(1, _max + 1):
+        log.info("--- Iteration %d / %d ---", iteration, _max)
+
+        # Build prompt: full instructions on iter 1, context tail on subsequent iters
+        if iteration == 1:
+            prompt = _build_initial_prompt(task_content, str(filepath))
+        else:
+            tail   = prev_output[-CONTEXT_TAIL:] if prev_output else ""
+            prompt = _build_continuation_prompt(
+                task_content, str(filepath), iteration, tail
+            )
+
+        _write_state(task_stem, "running", iteration, f"Iteration {iteration} in progress.")
+
+        # ── Invoke Claude ──────────────────────────────────────────────────
+        ok, output = _run_claude(prompt, dry_run=False)
+
+        if not ok:
+            if output == _ERR_NOT_FOUND:
+                # Binary vanished mid-loop (rare but possible on Windows PATH changes)
+                summary = (
+                    f'Claude CLI "{CLAUDE_CMD}" disappeared after {iteration} iteration(s). '
+                    "Install with: npm install -g @anthropic-ai/claude-code"
+                )
+                _write_state(task_stem, "error", iteration, summary)
+                _append_audit(
+                    str(filepath), "error", iteration,
+                    time.monotonic() - start, summary,
+                )
+                return {
+                    "status":     "error",
+                    "iterations": iteration,
+                    "summary":    summary,
+                    "duration_s": round(time.monotonic() - start, 2),
+                }
+            # Transient failure (timeout / non-zero exit) — log and keep looping
+            log.warning(
+                "[ITER %d] Claude call failed transiently (%s) — will retry next iteration.",
+                iteration, output.replace("\n", " ")[:80],
+            )
+            prev_output = ""
+        else:
+            log.info("[ITER %d] Claude output: %d chars.", iteration, len(output))
+            log.debug("[ITER %d] Output tail: %s", iteration, output[-200:].replace("\n", "↵"))
+            prev_output = output
+
+        # ── Check both completion conditions ───────────────────────────────
+        effective_output = output if ok else ""
+        if _is_complete(effective_output, task_stem, strategy):
+            duration    = time.monotonic() - start
+            promise_hit = _check_promise(effective_output)
+            file_hit    = _check_file_moved(task_stem)
+            summary = (
+                f"Completed in {iteration} iteration(s). "
+                f"Promise={'yes' if promise_hit else 'no'}, "
+                f"File={'yes' if file_hit else 'no'}."
+            )
+            log.info("[COMPLETE] %s", summary)
+            _write_state(task_stem, "complete", iteration, summary)
+            _append_audit(str(filepath), "complete", iteration, duration, summary)
+            return {
+                "status":     "complete",
+                "iterations": iteration,
+                "summary":    summary,
+                "duration_s": round(duration, 2),
+            }
+
+        # ── Not done yet — pause then continue ─────────────────────────────
+        if iteration < _max:
+            log.info(
+                "[ITER %d] Not yet complete — pausing %gs before iteration %d.",
+                iteration, PAUSE_BETWEEN, iteration + 1,
+            )
+            time.sleep(PAUSE_BETWEEN)
+
+    # ── All iterations exhausted ────────────────────────────────────────────
+    log.warning("[TIMEOUT] Exhausted %d iteration(s) without completion.", _max)
+    _annotate_timeout(filepath, _max)
+
+    duration = time.monotonic() - start
+    summary  = f"Timed out after {_max} iteration(s) without completing the task."
+    _write_state(task_stem, "timeout", _max, summary)
+    _append_audit(str(filepath), "timeout", _max, duration, summary)
     return {
-        'task_id': state['task_id'],
-        'status': state['status'],
-        'iterations': state['iteration'],
-        'summary': state.get('summary', ''),
-        'completion_method': state.get('completion_method'),
+        "status":     "timeout",
+        "iterations": _max,
+        "summary":    summary,
+        "duration_s": round(duration, 2),
     }
 
 
 # ---------------------------------------------------------------------------
-# CLI
+# CLI entry point
 # ---------------------------------------------------------------------------
 
 
-def main():
+def main() -> None:
     parser = argparse.ArgumentParser(
-        description='Ralph Loop — Autonomous Task Processor (Gold Tier)',
+        description="Ralph Loop — autonomous Claude agentic loop for complex tasks.",
         formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog="""
-Examples:
-  python ralph_loop.py --task-file Needs_Action/some_task.md
-  python ralph_loop.py --auto
-  python ralph_loop.py --status
-  python ralph_loop.py --resume some_task_id_abc12345
-        """,
+        epilog=(
+            "Examples:\n"
+            "  python ralph_loop.py --task-file Needs_Action/my_task.md\n"
+            "  python ralph_loop.py --prompt 'Process all files in Needs_Action/'\n"
+            "  python ralph_loop.py --task-file Needs_Action/my_task.md "
+            "--max-iterations 15\n"
+            "  python ralph_loop.py --task-file Needs_Action/my_task.md --dry-run\n"
+        ),
     )
-    parser.add_argument(
-        '--task-file',
-        type=str,
-        help='Path to a specific task file to process',
+
+    src = parser.add_mutually_exclusive_group(required=True)
+    src.add_argument(
+        "--task-file",
+        metavar="PATH",
+        help=(
+            "Path to the task .md file. Absolute, or relative to VAULT_ROOT "
+            f"({VAULT_ROOT})."
+        ),
     )
-    parser.add_argument(
-        '--auto',
-        action='store_true',
-        help='Automatically process all .md files in Needs_Action/',
+    src.add_argument(
+        "--prompt",
+        metavar="TEXT",
+        help=(
+            "Ad-hoc prompt text. A temporary task file is created in Needs_Action/ "
+            "and the loop runs on it."
+        ),
     )
+
     parser.add_argument(
-        '--resume',
-        type=str,
-        metavar='TASK_ID',
-        help='Resume a paused or failed loop by task ID',
-    )
-    parser.add_argument(
-        '--status',
-        action='store_true',
-        help='Show status of all Ralph Loop tasks',
-    )
-    parser.add_argument(
-        '--max-iterations',
+        "--max-iterations",
         type=int,
-        default=MAX_ITERATIONS,
-        help=f'Max iterations per task (default: {MAX_ITERATIONS})',
+        default=None,
+        metavar="N",
+        help=f"Override RALPH_MAX_ITERATIONS (env default: {MAX_ITERATIONS}).",
     )
     parser.add_argument(
-        '--timeout',
-        type=int,
-        default=ITERATION_TIMEOUT,
-        help=f'Timeout per iteration in seconds (default: {ITERATION_TIMEOUT})',
+        "--dry-run",
+        action="store_true",
+        help="Simulate the loop without invoking Claude (overrides DRY_RUN in .env).",
     )
+
     args = parser.parse_args()
 
-    if args.status:
-        show_status()
-    elif args.resume:
-        resume_task(args.resume)
-    elif args.auto:
-        auto_process()
-    elif args.task_file:
+    # Merge CLI --dry-run with env DRY_RUN (either source activates it)
+    dry = args.dry_run or DRY_RUN_ENV
+
+    if args.task_file:
         filepath = Path(args.task_file)
         if not filepath.is_absolute():
             filepath = VAULT_ROOT / filepath
-        run_task_loop(
+        if not filepath.exists():
+            log.error("[CLI] Task file not found: %s", filepath)
+            sys.exit(1)
+
+        result = process_task(
             filepath,
             max_iterations=args.max_iterations,
-            timeout=args.timeout,
+            dry_run=dry,
         )
+
     else:
-        parser.print_help()
+        # --prompt mode: materialise a temporary task file then run the loop on it
+        ts       = datetime.now().strftime("%Y%m%d_%H%M%S")
+        tmp_path = NEEDS_ACTION_DIR / f"{ts}_ralph_cli_prompt_action.md"
+        tmp_path.write_text(
+            f"---\ntype: cli_task\nstatus: pending\n---\n\n"
+            f"# Ralph Loop CLI Task\n\n{args.prompt}\n",
+            encoding="utf-8",
+        )
+        log.info("[CLI] Created temporary task file: %s", tmp_path)
+
+        result = process_task(
+            tmp_path,
+            max_iterations=args.max_iterations,
+            dry_run=dry,
+        )
+
+    # Pretty-print result
+    print()
+    print("=" * 52)
+    print("  Ralph Loop Result")
+    print("=" * 52)
+    for k, v in result.items():
+        print(f"  {k:<14}: {v}")
+    print("=" * 52)
+
+    # Exit 0 on success or dry_run, 1 on timeout or error
+    sys.exit(0 if result["status"] in ("complete", "dry_run") else 1)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

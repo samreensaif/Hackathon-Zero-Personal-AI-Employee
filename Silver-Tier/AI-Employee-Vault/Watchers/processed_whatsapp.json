@@ -1,0 +1,18 @@
+{
+  "4da18fb86df5edc1b289d79850484091": {
+    "chat": "Musaab",
+    "timestamp": "2026-02-21T16:39:21.869185",
+    "keywords": [
+      "invoice"
+    ],
+    "processed_at": "2026-02-21T16:39:21.869185"
+  },
+  "54b1a8b33231efd12375191c5aec12a8": {
+    "chat": "Kanza",
+    "timestamp": "2026-02-21T16:43:25.058853",
+    "keywords": [
+      "payment"
+    ],
+    "processed_at": "2026-02-21T16:43:25.058853"
+  }
+}
