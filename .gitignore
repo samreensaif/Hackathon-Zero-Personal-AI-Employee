@@ -1,0 +1,10 @@
+whatsapp_session/ 
+.env 
+*.json 
+Logs/ 
+__pycache__/ 
+Needs_Action/ 
+Done/ 
+Approved/ 
+Rejected/ 
+Pending_Approval/ 
